@@ -37,6 +37,71 @@ login_manager.init_app(app)
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(uid)
+
+
+#######Capstone Routes###########
+
+# @app.route('/') - this is the home route,
+# This HTML template can be a nav homescreen
+# a tags to the following routes, /login (for nickie) /request_form (for holly... and the like)
+
+# @app.route('/login') - this is the home route, also the login route for nickie to have access to all the read routes
+# This HTML template can be a simple login form
+# GET displays login form
+# POST redirects to /view_entries
+
+# @app.route('/logout') - visitng this route logs out user
+# Logs Nickie out of the webapp
+# redirects to '/' 
+
+# @app.route('/view_tables') - this is a "home page" for nickie - contains a nav bar to navigate to the following routes:
+#   1. /viewrequestlist 2. /viewinspectionlist 3. /viewavailable 4. /viewmileagelist 
+# These are the four main routes for viewing the van data 
+# Note these are the only the list view of the data
+# supports only GET method returns a basic nav page with a tags to navigate routes (see above ^^)
+
+# @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
+# The HTML page will contain a few pieces of information (id, license plate, etc)
+# id is an a tag that redirects to '/view_request_detail/id'
+
+#@app.route('/view_request_detail/id') -  this is where Nickie can view a detailed view of the active requests in the database
+# The html is of the specific record in the database (noted by the id)
+# The page displays all the information that would've been in the request form
+
+# @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
+# The HTML page will contain a few pieces of information (id, license plate, etc)
+# id is an a tag that redirects to '/view_inspection_detail/id'
+
+# @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
+# The html is of the specific record in the database (noted by the id)
+# The page displays all the information that would've been in the inspection form
+
+# #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
+# The html is of the specific record in the database (noted by the id)
+# id is an a tag that redirects to '/view_mileage_detail/id'
+
+# @app.route('/view_mileage_detail/id') -  this is where Nickie can view a detailed view of the active mileage records in the database
+# The html is of the specific record in the database (noted by the id)
+# The page displays all the information that would've been in the inspection form
+
+# @app.route('/view_available') -  this is where Nickie can view the availability table in the database
+# The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)
+# Most basic site just a quick way for Nickie to view the fleet
+
+## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
+# GET request displays a web page for filling out the form
+# POST request updates the request table in the database
+
+## @app.route('/inspection_form/?qrcode = ') -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
+# GET request displays the inspection form
+# POST request inserts new 
+
+
+
+
+
+
+
 @app.route('/')
 def index():
     return render_template('home.html', userAuth=current_user.is_authenticated)
