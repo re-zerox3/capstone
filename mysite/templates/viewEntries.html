@@ -1,23 +1,9 @@
-{% extends "base.html" %}
-{% block title %} View Your Entries {% endblock %}
-{% block content %}
-	<h1>Types of aircraft owned:</h1>
-	<table>
-		<tr>
-			<th>Manufacturer</th>
-			<th>Model</th>
-			<th>Number Owned</th>
-			<th>Type of Aircraft</th>
-			<th>Role</th>
-		</tr>
-	{% for plane in queryList %}
-		<tr>
-			<td>{{ plane.manufacturer }}</td>
-			<td>{{ plane.model }}</td>
-			<td>{{ plane.amount }}</td>
-			<td>{{ plane.type }}</td>
-			<td>{{ plane.role }}</td>
-		</tr>
-	{% endfor %}	
-	</table>
-{% endblock %}
+<h2>VIEW ENTRIES</h2>
+<body>
+	<nav id="navBar">
+        <a href="/view_request_list">Active requests</a></li>
+        <a href="/view_inspection_list">Inspections list</a></li>
+		<a href="/view_mileage_list">Mileage forms list</a></li>
+		<a href="/view_availble">View available vans</a></li>
+    </nav>
+</body>
