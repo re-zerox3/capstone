@@ -1,0 +1,17 @@
+CREATE TABLE checked_in-checked_out (
+	vehicle_num INTEGER PRIMARY KEY,
+	checkout_date TEXT NOT NULL,
+	return_date TEXT NOT NULL,
+	pick_up_date TEXT NOT NULL,
+	requester_name TEXT NOT NULL,
+	department_name TEXT NOT NULL,
+	course_num INTEGER NOT NULL,
+	drivers_name TEXT NOT NULL,
+	driver_phone TEXT NOT NULL,
+	destination TEXT NOT NULL,
+	odometer_reading_initial INTEGER NOT NULL,
+	odometer_reading_final INTEGER NOT NULL,
+	total_mileage INTEGER NOT NULL,
+	special_equipment TEXT,
+    hate_vim;
+);
