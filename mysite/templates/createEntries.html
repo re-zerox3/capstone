@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+{% block title %} Create Entry {% endblock %}
+{% block content %}
+	{% if formSuccess == True %}
+		<h1>Enter information for new aircraft:</h1>
+	{% elif formSuccess == False %}
+		<h1>Error! Aircraft model must be unique and cannot be blank.</h1>
+	{% endif %}
+	<div class="container">
+    <form action="/create_entries" method="POST">
+	  <label>Enter aircraft manufacturer:</label>
+	  <input type="text" name="manufacturer"> <br>
+	  <br>
+	  <label>Enter aircraft model:</label>
+	  <input type="text" name="model" required> <br>
+	  <br>
+	  <label>Enter number owned:</label>
+	  <input type="number" name="amount" min="1" max=""> <br>
+	  <br>
+	  <label>Select aircraft type:</label>
+	  <select name="type">
+		<option value="N/A">N/A</option>
+		<option value="Prop">Propeller-driven</option>
+		<option value="Jet">Jet-propelled</option>
+	  </select>
+	  <br>
+	  <label>Select aircraft role:</label>
+	  <select name="role">
+		<option value="N/A">N/A</option>
+		<option value="Recreation">Recreation</option>
+		<option value="Commercial Transport">Commercial Transport</option>
+		<option value="Cargo">Cargo</option>
+		<option value="Military">Military</option>
+		<option value="Other">Other</option>
+	  </select>
+	  <br>
+	  <input type="submit">
+    </form>
+	</div>
+{% endblock %}
