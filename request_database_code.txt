@@ -13,4 +13,5 @@ CREATE TABLE checked_in-checked_out (
 	odometer_reading_final INTEGER NOT NULL,
 	total_mileage INTEGER NOT NULL,
 	special_equipment TEXT,
+    hate_vim;
 );
