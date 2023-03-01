@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %} Create User {% endblock %}
+{% block content %}
+<html>
+	<body>
+		<p>VEHICLE MILEAGE RECORD</p>
+
+		<form action="" method="">
+       
+			<label for = "id_plate"> Vehicle License Plate Number:</label>
+			<input type="text" id ="id_plate" name="plateNumber" maxlength="7" required><br>
+        
+			<label for = "id_dest">Destination:</label>
+			<input type="text" id ="id_dest" name="destination" required><br>
+    
+			<label for = "id_course">Course:</label>
+			<input type="text" id ="id_course" name="course" required><br>
+
+			<label for = "deparT">Date Return:</label>
+			<input type="date" id ="deparT" name="departure" required><br>
+
+			<label for = "id_driver">Driver's Name Printed:</label>
+			<input type="text" id ="id_driver" name="driverName" required><br>
+
+			<label for = "sign">Driver's Signature:</label><br>
+			<input type="datetime" id ="sign" name="signature" required><br><br>
+        
+			<label for = "comm">Isssues/Concerns with Vehicle:</label><br>
+			<textarea id="comm" name="comments" rows="4" cols="50"> </textarea><br>
+			<input type="submit" value="submit">
+		</form>
+	</body>
+</html>
+{% endblock %}
