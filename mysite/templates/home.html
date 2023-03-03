@@ -2,7 +2,7 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 	{% if userAuth == True %}
-	<h1>Welcome to The Aircraft Inventory Manager!</h1>
+	<h1>VAN CHECKOUT HOME</h1>
 	<p>Use the navigation bar to:</p>
 	<ul>
 		<li>Login.</li> <br>
@@ -13,30 +13,22 @@
 		<li>View your entries.</li> <br>
 		<li>Update entries</li> <br>
 		<li>Delete entries.</li> <br>
+        <li>View the inspection form</li> <br>
+        <li>View mileage form 1.</li> <br>
+        <li>View mileage form 2.</li> <br>
+        <li>View the request form.</li> <br>
 	</ul>
 	{% elif userAuth == False %}
-	<h1>Welcome to The: <h1>
-	<p id="message">Amazing</p>
-	<h1> Aircraft Inventory Manager!</h1>
+	<h1>VAN CHECKOUT HOME</h1>
 	<p>Use the navigation bar to:</p>
 	<ul>
 		<li>Login.</li> <br>
 		<li>Logout.</li> <br>
 		<li>Create a new user.</li> <br>
+        <li>View the inspection form</li> <br>
+        <li>View mileage form 1.</li> <br>
+        <li>View mileage form 2.</li> <br>
+        <li>View the request form.</li> <br>
 	</ul>
-	
-	<script>
-		function getImage() {
-			var wordArray = ['Lovely!', 'wonderous', 'Fantastic', 'Hilarious', 'Magnanimous', 'Lonely', 'Temperate', 'Aesthetic', 'Massive', 'Precocious'];
-			var maxVal = wordArray.length;
-			randVal = Math.floor(Math.random() * maxVal);
-			var p = document.getElementById("message");
-			p.innerHTML = wordArray[randVal];
-		}
-		
-		window.onload = function() {
-			setInterval(getImage, 3000);
-		};
-	</script
 	{% endif %}
 {% endblock %}

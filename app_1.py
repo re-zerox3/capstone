@@ -116,7 +116,7 @@ def viewUser():
 @app.route('/inspection_form')
 @login_required
 def viewUser():
-    return render_template('inspectionForm.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
+    return render_template('inspection_form.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
@@ -143,7 +143,7 @@ def viewUser():
 @app.route('/request_form')
 @login_required
 def viewUser():
-    return render_template('TSVR_Form.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
+    return render_template('request_form.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
 '''
 @app.route('/create_entries', methods=['GET','POST'])
