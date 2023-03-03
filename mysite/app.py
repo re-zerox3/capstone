@@ -19,6 +19,37 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(40), nullable=False)
     #planes = db.relationship('Planes', backref='user')
 
+#work in progress
+'''
+class Request(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(40))
+    name = db.Column(db.String(40))
+    dept = db.Column(db.String(40))
+    courseNum = db.Column(db.Integer)
+    phoneNum = db.Column(db.String(40))
+    vanNum = db.Column(db.Integer)
+    explorerNum = db.Column(db.Integer)
+    suburbanNum = db.Column(db.Integer)
+    equipment = db.Column(db.String(150))
+    lands = db.Column(db.String(50))
+    destination = db.Column(db.String(50))
+    participantsNum = db.Column(db.String(50))
+    tripPurpose = db.Column(db.String(50))
+    pickupDate = db.Column(db.String(40))
+    pickupTime = db.Column(db.String(40))
+    returnDate = db.Column(db.String(40))
+    returnTime = db.Column(db.String(40))
+    operator1 = db.Column(db.String(40))
+    operator2 = db.Column(db.String(40))
+    operator3 = db.Column(db.String(40))
+    operator4 = db.Column(db.String(40))
+    operator5 = db.Column(db.String(40))
+    indexNum = db.Column(db.String(40))
+    accountNum = db.Column(db.String(40))
+    estMilesCost = db.Column(db.String(40))
+'''
+
 #db.create_all()
 #db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
 #db.session.commit()

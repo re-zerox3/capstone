@@ -15,7 +15,8 @@
 	}
 
 	nav ul li {
-		display: inline;
+		display: inline-block;
+		margin: 5px;
 		padding: 10px;
 		font-size: 25px;
 	}
