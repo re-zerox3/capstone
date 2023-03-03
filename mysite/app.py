@@ -17,7 +17,7 @@ class User(UserMixin, db.Model):
     age = db.Column(db.Integer)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    planes = db.relationship('Planes', backref='user')
+    #planes = db.relationship('Planes', backref='user')
 
 #db.create_all()
 #db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
