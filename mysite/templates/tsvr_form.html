@@ -3,8 +3,13 @@
 {% block content %}
 <html>
     <h1>TRANSPORTATION SERVICES VEHICLE REQUEST</h1>
+    {% if formSuccess == True %}
+		<h1>Enter information for new request:</h1>
+	{% elif formSuccess == False %}
+		<h1>Error! A request already exists under this name!</h1>
+	{% endif %}
 	<body>
-		<form action="/" method="POST">
+		<form action="/request_form" method="POST">
 			<label>Today's Date: </label><input type="date" name="date" required><br>
 			<label>Requester's Name: </label><input type="text" name="name" required><br>
 			<label>Dept: </label><input type="text" name="dept" required><br>
@@ -23,11 +28,11 @@
 			<label>Return Date/Time: </label><input type="date" name="returnDate" required><input type="time" name="returnTime" required><br><br>
 			<label>Vehicle Operators: </label><br>
 			<input type="text" name="operator1" required><br>
-			<input type="text" name="operator2" required><br>
-			<input type="text" name="operator3" required><br>
-			<input type="text" name="operator4" required><br>
-			<input type="text" name="operator5" required><br>
-			<input type="text" name="operator6" required><br><br>
+			<input type="text" name="operator2"><br>
+			<input type="text" name="operator3"><br>
+			<input type="text" name="operator4"><br>
+			<input type="text" name="operator5"><br>
+			<input type="text" name="operator6"><br><br>
 			<h2>VEHICLE REQUEST CHARGE (Request will not be processed without this information): </h2><br>
 			<label>Index Number: </label><input type="text" name="indexNum" required><br>
 			<label>Account Number: </label><input type="text" name="accountNum" required><br>

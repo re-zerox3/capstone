@@ -19,8 +19,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(40), nullable=False)
     #planes = db.relationship('Planes', backref='user')
 
-#work in progress
-'''
+
 class Request(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     date = db.Column(db.String(40))
@@ -48,7 +47,6 @@ class Request(UserMixin, db.Model):
     indexNum = db.Column(db.String(40))
     accountNum = db.Column(db.String(40))
     estMilesCost = db.Column(db.String(40))
-'''
 
 #db.create_all()
 #db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
@@ -172,10 +170,47 @@ def mileage_2():
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
 # POST request updates the request table by inserting a new record in the request table in thee database
-@app.route('/request_form')
-#@login_required - not needed right now
+@app.route('/request_form', methods=['GET','POST'])
 def tsvr_form():
-    return render_template('tsvr_form.html', userAuth=current_user.is_authenticated)
+    formSuccess = True
+    if request.method == 'GET':
+        return render_template('tsvr_form.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    date = request.form['date']
+    name = request.form['name']
+    dept = request.form['dept']
+    courseNum = request.form['courseNum']
+    phoneNum = request.form['phoneNum']
+    vanNum = request.form['vanNum']
+    explorerNum = request.form['explorerNum']
+    suburbanNum = request.form['suburbanNum']
+    equipment = request.form['equipment']
+    lands = request.form['lands']
+    destination = request.form['destination']
+    participantsNum = request.form['participantsNum']
+    tripPurpose = request.form['tripPurpose']
+    pickupDate = request.form['pickupDate']
+    pickupTime = request.form['pickupTime']
+    returnDate = request.form['returnDate']
+    returnTime = request.form['returnTime']
+    operator1 = request.form['operator1']
+    operator2 = request.form['operator2']
+    operator3 = request.form['operator3']
+    operator4 = request.form['operator4']
+    operator5 = request.form['operator5']
+    indexNum = request.form['indexNum']
+    accountNum = request.form['accountNum']
+    estMilesCost = request.form['estMilesCost']
+    requestResult = Request.query.filter_by(name=name).first()
+    if requestResult is None:
+        db.session.add(Request(date=date, name=name, dept=dept, courseNum=courseNum, phoneNum=phoneNum, vanNum=vanNum, explorerNum=explorerNum, suburbanNum=suburbanNum, equipment=equipment, lands=lands,
+            destination=destination, participantsNum=participantsNum, tripPurpose=tripPurpose, pickupDate=pickupDate, returnDate=returnDate, operator1=operator1, operator2=operator2, operator3=operator3,
+            operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost))
+        db.session.commit()
+        requestResult = Request.query.filter_by(name=name).first()
+        return render_template('home.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    elif requestResult is not None:
+        formSuccess = False
+        return render_template('tsvr_form.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 '''
 @app.route('/create_entries', methods=['GET','POST'])
