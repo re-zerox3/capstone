@@ -111,7 +111,7 @@ def viewUser():
     return render_template('viewUserInfo.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
 
-## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
+## @app.route('/inspection_form/?qrcode= ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode =
 @app.route('/inspection_form')
@@ -120,7 +120,7 @@ def inspection():
     return render_template('inspectionForm.html', userAuth=current_user.is_authenticated)
 
 
-# @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
+# @app.route('/mileage_form1/?qrcode= ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
 # POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
 @app.route('/mileage_form1')
@@ -129,7 +129,7 @@ def mileage_1():
     return render_template('mileage_1.html', userAuth=current_user.is_authenticated)
 
 
-# @app.route('/mileage_form2/?qrcode = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
+# @app.route('/mileage_form2/?qrcode= ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
 @app.route('/mileage_form2')
@@ -203,42 +203,71 @@ def deleteEntries():
         return render_template('deleteEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 '''
 # @app.route('/view_entries') - this is a "home page" for nickie - contains a nav bar to navigate to the following routes:
-#   1. /viewrequestlist 2. /viewinspectionlist 3. /viewavailable 4. /viewmileagelist
+#   1. /view_request_list 2. /view_inspection_list 3. /view_available 4. /view_mileage_list
 # These are the four main routes for viewing the van data
 # Note these are the only the list view of the data
 # supports only GET method returns a basic nav page with a tags to navigate routes (see above ^^)
 @app.route('/view_entries')
 @login_required
 def viewEntries():
-    return render_template('viewEntries.html', queryList=Planes.query.filter_by(user_id=current_user.id).all(), userAuth=current_user.is_authenticated)
+    return render_template('viewEntries.html')
 
 # @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_request_detail/id'
+@app.route('/view_request_list')
+@login_required
+def viewEntries():
+    return render_template('view_request_list.html')
+
 
 #@app.route('/view_request_detail/id') -  this is where Nickie can view a detailed view of the active requests in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the request form
+@app.route('/view_request_detail')
+@login_required
+def viewEntries():
+    return render_template('view_request_detail.html')
 
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_inspection_detail/id'
+@app.route('/')
+@login_required
+def viewEntries():
+    return render_template('view_inspection_list.html')
 
 # @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the inspection form
+@app.route('/view_inspection_detail')
+@login_required
+def viewEntries():
+    return render_template('view_inspection_detail.html')
 
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
 # id is an a tag that redirects to '/view_mileage_detail/id'
+@app.route('/view_mileage_list')
+@login_required
+def viewEntries():
+    return render_template('view_mileage_list.html')
 
 # @app.route('/view_mileage_detail/id') -  this is where Nickie can view a detailed view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the inspection form
+@app.route('/view_mileage_detail')
+@login_required
+def viewEntries():
+    return render_template('view_mileage_detail.html')
 
 # @app.route('/view_available') -  this is where Nickie can view the availability table in the database
 # The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)
 # Most basic site just a quick way for Nickie to view the fleet
+@app.route('/view_available')
+@login_required
+def viewEntries():
+    return render_template('view_available.html')
 
 @app.errorhandler(404)
 def err404(err):
