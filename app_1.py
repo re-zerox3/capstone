@@ -145,7 +145,6 @@ def viewUser():
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode = 
 @app.route('/inspection_form',methods=["GET","POST"])
-@login_required
 def inspection():
     if request.method=="POST":
         vehicleNum = request.form['vehicle #']
@@ -252,7 +251,6 @@ def checkAvailability():
 # GET request displays a web page for filling out the form
 # POST request updates the request table by inserting a new record in the request table in thee database
 @app.route('/request_form')
-@login_required
 def viewUser():
     return render_template('request_form.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
