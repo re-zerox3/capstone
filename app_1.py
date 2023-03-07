@@ -143,7 +143,7 @@ def viewUser():
 
 ## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
-# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode = 
+# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode=xyz123
 @app.route('/inspection_form',methods=["GET","POST"])
 def inspection():
     if request.method=="POST":

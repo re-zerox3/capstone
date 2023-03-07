@@ -188,7 +188,8 @@ def viewUser():
 @app.route('/inspection_form',methods=["GET","POST"])
 def inspection():
     if request.method=="POST":
-        vehicleNum = request.form['vehicle #']
+        # vehicleNum = request.form['vehicle #']
+        vehicleNum = request.args.get('qrcode', '')
         todaysDate = request.form['todays date']
         returnDate = request.form['return date']
         requester = request.form['vehicle requster']
