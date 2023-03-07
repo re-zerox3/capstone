@@ -1,7 +1,34 @@
-<h2>HOME</h2>
-<body>
-    <nav id="navBar">
-        <a href="/login">LOGIN</a></li>
-        <a href="/request_form">MAKE A VEHICLE REQUST</a></li>
-    </nav>
-</body> 
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+	{% if userAuth == True %}
+	<h1>VAN CHECKOUT HOME</h1>
+	<p>Use the navigation bar to:</p>
+	<ul>
+		<li>Login.</li> <br>
+		<li>Logout.</li> <br>
+		<li>View your user information.</li> <br>
+		<li>Update an existing user.</li> <br>
+		<li>Create entries.</li> <br>
+		<li>View your entries.</li> <br>
+		<li>Update entries</li> <br>
+		<li>Delete entries.</li> <br>
+        <li>View the inspection form</li> <br>
+        <li>View mileage form 1.</li> <br>
+        <li>View mileage form 2.</li> <br>
+        <li>View the request form.</li> <br>
+	</ul>
+	{% elif userAuth == False %}
+	<h1>VAN CHECKOUT HOME</h1>
+	<p>Use the navigation bar to:</p>
+	<ul>
+		<li>Login.</li> <br>
+		<li>Logout.</li> <br>
+		<li>Create a new user.</li> <br>
+        <li>View the inspection form</li> <br>
+        <li>View mileage form 1.</li> <br>
+        <li>View mileage form 2.</li> <br>
+        <li>View the request form.</li> <br>
+	</ul>
+	{% endif %}
+{% endblock %}

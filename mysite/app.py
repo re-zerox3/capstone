@@ -5,7 +5,7 @@ from flask_login import LoginManager, UserMixin, \
 
 app = Flask(__name__, static_url_path='/static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/database.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -17,7 +17,38 @@ class User(UserMixin, db.Model):
     age = db.Column(db.Integer)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    planes = db.relationship('Planes', backref='user')
+    #planes = db.relationship('Planes', backref='user')
+
+#work in progress
+'''
+class Request(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String(40))
+    name = db.Column(db.String(40))
+    dept = db.Column(db.String(40))
+    courseNum = db.Column(db.Integer)
+    phoneNum = db.Column(db.String(40))
+    vanNum = db.Column(db.Integer)
+    explorerNum = db.Column(db.Integer)
+    suburbanNum = db.Column(db.Integer)
+    equipment = db.Column(db.String(150))
+    lands = db.Column(db.String(50))
+    destination = db.Column(db.String(50))
+    participantsNum = db.Column(db.String(50))
+    tripPurpose = db.Column(db.String(50))
+    pickupDate = db.Column(db.String(40))
+    pickupTime = db.Column(db.String(40))
+    returnDate = db.Column(db.String(40))
+    returnTime = db.Column(db.String(40))
+    operator1 = db.Column(db.String(40))
+    operator2 = db.Column(db.String(40))
+    operator3 = db.Column(db.String(40))
+    operator4 = db.Column(db.String(40))
+    operator5 = db.Column(db.String(40))
+    indexNum = db.Column(db.String(40))
+    accountNum = db.Column(db.String(40))
+    estMilesCost = db.Column(db.String(40))
+'''
 
 #db.create_all()
 #db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
@@ -115,7 +146,7 @@ def viewUser():
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode =
 @app.route('/inspection_form')
-@login_required
+#@login_required - not needed right now
 def inspection():
     return render_template('inspectionForm.html', userAuth=current_user.is_authenticated)
 
@@ -124,7 +155,7 @@ def inspection():
 # GET displays the 1st mileage form with license plate already filled in
 # POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
 @app.route('/mileage_form1')
-@login_required
+#@login_required - not needed right now
 def mileage_1():
     return render_template('mileage_1.html', userAuth=current_user.is_authenticated)
 
@@ -133,7 +164,7 @@ def mileage_1():
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
 @app.route('/mileage_form2')
-@login_required
+#@login_required - not needed right now
 def mileage_2():
     return render_template('mileage_2.html', userAuth=current_user.is_authenticated)
 
@@ -142,9 +173,9 @@ def mileage_2():
 # GET request displays a web page for filling out the form
 # POST request updates the request table by inserting a new record in the request table in thee database
 @app.route('/request_form')
-@login_required
+#@login_required - not needed right now
 def tsvr_form():
-    return render_template('tsvr_Form.html', userAuth=current_user.is_authenticated)
+    return render_template('tsvr_form.html', userAuth=current_user.is_authenticated)
 
 '''
 @app.route('/create_entries', methods=['GET','POST'])
