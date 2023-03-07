@@ -19,6 +19,19 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(40), nullable=False)
     planes = db.relationship('Planes', backref='user')
 
+class Inspection(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    vehicleNum = db.Column(db.String(8))
+    todaysDate = db.Column(db.String(10))
+    returnDate = db.Column(db.String(10))
+    requester = db.Column(db.String(40))
+    department = db.Column(db.String(40))
+    destination = db.Column(db.String(80))
+    beginODO = db.Column(db.String(40))
+    comments = db.Column(db.String(150))
+    operator = db.Column(db.String(40))
+    completed = db.Column(db.String(40))
+
 class Mileage(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departure = db.Column(db.String(20),nullable=False)
@@ -131,10 +144,26 @@ def viewUser():
 ## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode = 
-@app.route('/inspection_form')
+@app.route('/inspection_form',methods=["GET","POST"])
 @login_required
-def viewUser():
-    return render_template('inspection_form.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
+def inspection():
+    if request.method=="POST":
+        vehicleNum = request.form['vehicle #']
+        todaysDate = request.form['todays date']
+        returnDate = request.form['return date']
+        requester = request.form['vehicle requster']
+        department = request.form['Department']
+        destination = request.form['Destination']
+        beginODO = request.form['beginODO']
+        comments = request.form['comments']
+        operator = request.form['Operator']
+        completed = "inspection completed"
+        inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
+        db.session.add(inspection1)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('inspection_form.html')
 
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
