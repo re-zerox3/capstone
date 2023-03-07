@@ -10,7 +10,9 @@ app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
 
+####Classes for the different data types######
 
+####user class - may not use
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
@@ -18,6 +20,41 @@ class User(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
     #planes = db.relationship('Planes', backref='user')
+
+####inspection class
+class Inspection(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    vehicleNum = db.Column(db.String(8))
+    todaysDate = db.Column(db.String(10))
+    returnDate = db.Column(db.String(10))
+    requester = db.Column(db.String(40))
+    department = db.Column(db.String(40))
+    destination = db.Column(db.String(80))
+    beginODO = db.Column(db.String(40))
+    comments = db.Column(db.String(150))
+    operator = db.Column(db.String(40))
+    completed = db.Column(db.String(40))
+
+####Mileage class
+class Mileage(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    departure = db.Column(db.String(20),nullable=False)
+    beginMileage = db.Column(db.Integer)
+    endMileage = db.Column(db.Integer)
+    totalMiles = db.Column(db.Integer)
+    driverName = db.Column(db.String(40), nullable=False)
+    signature = db.Column(db.String(40), nullable=False)
+    comments =  db.Column(db.String(40), nullable=False)
+    plateNumber = db.Column(db.String(40), nullable=False)
+    destination = db.Column(db.String(40), nullable=False)
+    course = db.Column(db.String(40), nullable=False)    
+
+####Available Class
+class Available():
+    License_Plate = db.Column(db.String,primary_key=True) 
+    Vehicle_Name = db.Column(db.String(40),nullable=False)
+    availability = db.Column(db.String(10),nullable=False)
+
 
 #work in progress
 '''
@@ -72,6 +109,7 @@ def load_user(uid):
 def index():
     return render_template('home.html', userAuth=current_user.is_authenticated)
 
+'''
 # @app.route('/login') - this is the home route, also the login route for nickie to have access to all the read routes
 # This HTML template can be a simple login form
 # GET displays login form
@@ -140,34 +178,111 @@ def update():
 @login_required
 def viewUser():
     return render_template('viewUserInfo.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
+'''
 
 
-## @app.route('/inspection_form/?qrcode= ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
+
+## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
-# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode =
-@app.route('/inspection_form')
-#@login_required - not needed right now
+# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode=xyz123
+@app.route('/inspection_form',methods=["GET","POST"])
 def inspection():
-    return render_template('inspectionForm.html', userAuth=current_user.is_authenticated)
+    if request.method=="POST":
+        vehicleNum = request.form['vehicle #']
+        todaysDate = request.form['todays date']
+        returnDate = request.form['return date']
+        requester = request.form['vehicle requster']
+        department = request.form['Department']
+        destination = request.form['Destination']
+        beginODO = request.form['beginODO']
+        comments = request.form['comments']
+        operator = request.form['Operator']
+        completed = "inspection completed"
+        inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
+        db.session.add(inspection1)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template('inspection_form.html')
 
-
-# @app.route('/mileage_form1/?qrcode= ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
+# @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
-# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
-@app.route('/mileage_form1')
-#@login_required - not needed right now
-def mileage_1():
-    return render_template('mileage_1.html', userAuth=current_user.is_authenticated)
+# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode = 
+@app.route('/mileageForm_1',methods=["GET","POST"])
+def mileage1():
+    if request.method=="POST":
+        plateNumber = request.form['plateNumber']
+        print(plateNumber)
+        destination = request.form['destination']
+        print(destination)
+        course = request.form['course']
+        print(course)
+        departure = request.form['departure']
+        print(departure)
+        beginMileage = request.form['beginMileage']
+        print(beginMileage)
+        driverName = request.form['driverName']
+        print(driverName)
+        signature = request.form['signature']
+        print(signature)
+        comments = request.form['comments']
+        print(comments)
+        mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, driverName=driverName,signature=signature,comments=comments)
+        db.session.add(mileage1)
+        db.session.commit()
+        return redirect('/')
+    else:
+        return render_template("mileage_1.html")
+    
 
 
-# @app.route('/mileage_form2/?qrcode= ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
+# @app.route('/mileage_form2/?qrcode = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
-@app.route('/mileage_form2')
-#@login_required - not needed right now
-def mileage_2():
-    return render_template('mileage_2.html', userAuth=current_user.is_authenticated)
+@app.route('/mileageForm_2', methods=["POST","GET"])
+def mileage2():
+    if request.method == "POST":
+        print("hello world")
+        departure = request.form['departure']
+        print("departure:",departure)
+   
+        beginMileage = request.form['beginMileage']
+        print("beginM:",beginMileage)
+    
+        endMileage = request.form['endMileage']
+        print("bMIles:",endMileage)
 
+        totalMiles= request.form['totalMiles']
+        print("total:",totalMiles)
+
+        driverName = request.form['driverName']
+        print("driverName:",driverName)
+    
+        plateNumber = request.form['plateNumber']
+        print("plateNum:",plateNumber)
+    
+        destination = request.form['destination']
+        print("destination:",destination)
+    
+        course = request.form['course']
+        print("course:",course)
+    
+        signature = request.form['signature']
+        print("signature:",signature)
+    
+        comments = request.form['comments']
+        print("comments:",comments)
+    
+        mileage = Mileage(departure=departure, beginMileage=beginMileage, endMileage=endMileage, totalMiles=totalMiles, driverName=driverName, 
+                     plateNumber=plateNumber, destination=destination, course=course, signature=signature,comments=comments)
+        db.session.add(mileage)
+        db.session.commit()
+        return redirect('/')
+    else:
+        plateNumber = request.form['plateNumber']
+        updateMileage = Mileage.query.filter_by(plateNumber=plateNumber).first()
+
+        return render_template('mileage.html')
 
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
@@ -177,62 +292,7 @@ def mileage_2():
 def tsvr_form():
     return render_template('tsvr_form.html', userAuth=current_user.is_authenticated)
 
-'''
-@app.route('/create_entries', methods=['GET','POST'])
-@login_required
-def createEntries():
-    formSuccess = True
-    if request.method == 'GET':
-        return render_template('createEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    planeMaker = request.form['manufacturer']
-    planeModel = request.form['model']
-    planeAmount = request.form['amount']
-    planeType = request.form['type']
-    planeRole = request.form['role']
-    uniqueCheck = queryList=Planes.query.filter_by(model=planeModel, user_id=current_user.id).first()
-    if planeModel is not None and uniqueCheck is None:
-        newPlane = Planes(manufacturer=planeMaker, model=planeModel, amount=planeAmount, type=planeType, role=planeRole)
-        newPlane.user = current_user
-        db.session.add(newPlane)
-        db.session.commit()
-        return render_template('createEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    elif planeModel or uniqueCheck is None:
-        formSuccess = False
-        return render_template('createEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-@app.route('/update_entries', methods=['GET','POST'])
-@login_required
-def updateEntries():
-    formSuccess = True
-    if request.method == 'GET':
-        return render_template('updateEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    planeModel = request.form['model']
-    updateModel = Planes.query.filter_by(model=planeModel, user_id=current_user.id).first()
-    if updateModel is not None:
-        updateModel.manufacturer = request.form['manufacturer']
-        updateModel.amount = request.form['amount']
-        updateModel.type = request.form['type']
-        updateModel.role = request.form['role']
-        db.session.commit()
-        return render_template('updateEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    elif updateModel is None:
-        formSuccess = False
-        return render_template('updateEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-@app.route('/delete_entries', methods=['GET','POST'])
-@login_required
-def deleteEntries():
-    formSuccess = True
-    if request.method == 'GET':
-        return render_template('deleteEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    planeModel = request.form['model']
-    entry = Planes.query.filter_by(model=planeModel, user_id=current_user.id).first()
-    if entry is not None:
-        db.session.delete(entry)
-        db.session.commit()
-        return render_template('deleteEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    elif entry is None:
-        formSuccess = False
-        return render_template('deleteEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-'''
+
 # @app.route('/view_entries') - this is a "home page" for nickie - contains a nav bar to navigate to the following routes:
 #   1. /view_request_list 2. /view_inspection_list 3. /view_available 4. /view_mileage_list
 # These are the four main routes for viewing the van data
