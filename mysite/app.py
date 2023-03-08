@@ -22,7 +22,7 @@ class User(UserMixin, db.Model):
     #planes = db.relationship('Planes', backref='user')
 
 ####inspection class
-class Inspection(UserMixin, db.Model):
+class Inspections(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vehicleNum = db.Column(db.String(8))
     todaysDate = db.Column(db.String(10))
@@ -184,20 +184,20 @@ def inspection():
     if request.method=='POST':
         vehicleNum = request.form['vehicleNum']
         #vehicleNum = request.args.get('qrcode', '')
-        # todaysDate = str(request.form['todaysdate'])
-        # returnDate = str(request.form['returndate'])
-        # requester = request.form['vehicle requster']
-        # department = request.form['Department']
-        # destination = request.form['Destination']
-        # beginODO = request.form['beginODO']
-        # comments = request.form['comments']
-        # operator = request.form['Operator']
-        # completed = "inspection completed"
+        todaysDate = str(request.form['todaysdate'])
+        returnDate = str(request.form['returndate'])
+        requester = request.form['requester']
+        department = request.form['department']
+        destination = request.form['destination']
+        beginODO = request.form['beginODO']
+        comments = request.form['comments']
+        operator = request.form['operator']
 
-        # inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
+        # inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator)
         # db.session.add(inspection1)
         # db.session.commit()  
         return redirect('/')
+    
     if request.method == 'GET':
         return render_template('inspectionForm.html')
 
