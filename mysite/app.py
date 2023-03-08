@@ -184,8 +184,8 @@ def inspection():
     if request.method=="POST":
         # vehicleNum = request.form['vehicle #']
         vehicleNum = request.args.get('qrcode', '')
-        todaysDate = request.form['todays date']
-        returnDate = request.form['return date']
+        todaysDate = str(request.form['todays date'])
+        returnDate = str(request.form['return date'])
         requester = request.form['vehicle requster']
         department = request.form['Department']
         destination = request.form['Destination']
@@ -193,10 +193,10 @@ def inspection():
         comments = request.form['comments']
         operator = request.form['Operator']
         completed = "inspection completed"
+
         inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
         db.session.add(inspection1)
         db.session.commit()
-        return redirect('/')
     else:
         return render_template('inspectionForm.html')
 
