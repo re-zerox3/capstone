@@ -5,7 +5,7 @@ from flask_login import LoginManager, UserMixin, \
 
 app = Flask(__name__, static_url_path='/static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -47,45 +47,42 @@ class Mileage(UserMixin, db.Model):
     comments =  db.Column(db.String(40), nullable=False)
     plateNumber = db.Column(db.String(40), nullable=False)
     destination = db.Column(db.String(40), nullable=False)
-    course = db.Column(db.String(40), nullable=False)    
+    course = db.Column(db.String(40), nullable=False)
 
 ####Available Class
-class Available():
-    License_Plate = db.Column(db.String,primary_key=True) 
+class Available(UserMixin, db.Model):
+    License_Plate = db.Column(db.String,primary_key=True)
     Vehicle_Name = db.Column(db.String(40),nullable=False)
     availability = db.Column(db.String(10),nullable=False)
 
-
-#work in progress
-'''
-class Request(UserMixin, db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    date = db.Column(db.String(40))
-    name = db.Column(db.String(40))
-    dept = db.Column(db.String(40))
-    courseNum = db.Column(db.Integer)
-    phoneNum = db.Column(db.String(40))
-    vanNum = db.Column(db.Integer)
-    explorerNum = db.Column(db.Integer)
-    suburbanNum = db.Column(db.Integer)
-    equipment = db.Column(db.String(150))
-    lands = db.Column(db.String(50))
-    destination = db.Column(db.String(50))
-    participantsNum = db.Column(db.String(50))
-    tripPurpose = db.Column(db.String(50))
-    pickupDate = db.Column(db.String(40))
-    pickupTime = db.Column(db.String(40))
-    returnDate = db.Column(db.String(40))
-    returnTime = db.Column(db.String(40))
-    operator1 = db.Column(db.String(40))
+###Request Class
+class Requests(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True, nullable=False)
+    date = db.Column(db.String(40), nullable=False)
+    name = db.Column(db.String(40), nullable=False)
+    dept = db.Column(db.String(40), nullable=False)
+    courseNum = db.Column(db.Integer, nullable=False)
+    phoneNum = db.Column(db.String(40), nullable=False)
+    vanNum = db.Column(db.Integer, nullable=False)
+    explorerNum = db.Column(db.Integer, nullable=False)
+    suburbanNum = db.Column(db.Integer, nullable=False)
+    equipment = db.Column(db.String(150), nullable=False)
+    lands = db.Column(db.String(50), nullable=False)
+    destination = db.Column(db.String(50), nullable=False)
+    participantsNum = db.Column(db.Integer, nullable=False)
+    tripPurpose = db.Column(db.String(50), nullable=False)
+    pickupDate = db.Column(db.String(40), nullable=False)
+    pickupTime = db.Column(db.String(40), nullable=False)
+    returnDate = db.Column(db.String(40), nullable=False)
+    returnTime = db.Column(db.String(40), nullable=False)
+    operator1 = db.Column(db.String(40), nullable=False)
     operator2 = db.Column(db.String(40))
     operator3 = db.Column(db.String(40))
     operator4 = db.Column(db.String(40))
     operator5 = db.Column(db.String(40))
-    indexNum = db.Column(db.String(40))
-    accountNum = db.Column(db.String(40))
-    estMilesCost = db.Column(db.String(40))
-'''
+    indexNum = db.Column(db.String(40), nullable=False)
+    accountNum = db.Column(db.String(40), nullable=False)
+    estMilesCost = db.Column(db.String(40), nullable=False)
 
 #db.create_all()
 #db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
@@ -109,7 +106,7 @@ def load_user(uid):
 def index():
     return render_template('home.html', userAuth=current_user.is_authenticated)
 
-'''
+
 # @app.route('/login') - this is the home route, also the login route for nickie to have access to all the read routes
 # This HTML template can be a simple login form
 # GET displays login form
@@ -178,9 +175,6 @@ def update():
 @login_required
 def viewUser():
     return render_template('viewUserInfo.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
-'''
-
-
 
 ## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
@@ -204,13 +198,15 @@ def inspection():
         db.session.commit()
         return redirect('/')
     else:
-        return render_template('inspection_form.html')
+        return render_template('inspectionForm.html')
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
-# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode = 
-@app.route('/mileageForm_1',methods=["GET","POST"])
+# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
+@app.route('/mileageForm1',methods=["GET","POST"])
 def mileage1():
+    #PRE: Renders a html to complete form
+    #POST: Updates mileage Table based on platerNumber
     if request.method=="POST":
         plateNumber = request.form['plateNumber']
         print(plateNumber)
@@ -228,72 +224,142 @@ def mileage1():
         print(signature)
         comments = request.form['comments']
         print(comments)
+        setAvailability(plateNumber)
         mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
         return redirect('/')
     else:
         return render_template("mileage_1.html")
-    
 
 
 # @app.route('/mileage_form2/?qrcode = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
-@app.route('/mileageForm_2', methods=["POST","GET"])
+@app.route('/mileageForm2', methods=["POST","GET"])
 def mileage2():
+    #PRE: Retrieve data from Mileage Table
+    #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
+        mileageData = []
         print("hello world")
+
         departure = request.form['departure']
         print("departure:",departure)
-   
+        mileageData.append(departure)
+
         beginMileage = request.form['beginMileage']
         print("beginM:",beginMileage)
-    
+        mileageData.append(beginMileage)
+
         endMileage = request.form['endMileage']
         print("bMIles:",endMileage)
+        mileageData.append(endMileage)
 
         totalMiles= request.form['totalMiles']
         print("total:",totalMiles)
+        mileageData.append(totalMiles)
 
         driverName = request.form['driverName']
         print("driverName:",driverName)
-    
+        mileageData.append(driverName)
+
         plateNumber = request.form['plateNumber']
         print("plateNum:",plateNumber)
-    
+        mileageData.append(plateNumber)
+
         destination = request.form['destination']
         print("destination:",destination)
-    
+        mileageData.append(destination)
+
         course = request.form['course']
         print("course:",course)
-    
+        mileageData.append(course)
+
         signature = request.form['signature']
         print("signature:",signature)
-    
+        mileageData.append(signature)
+
         comments = request.form['comments']
         print("comments:",comments)
-    
-        mileage = Mileage(departure=departure, beginMileage=beginMileage, endMileage=endMileage, totalMiles=totalMiles, driverName=driverName, 
-                     plateNumber=plateNumber, destination=destination, course=course, signature=signature,comments=comments)
-        db.session.add(mileage)
-        db.session.commit()
+        mileageData.append(comments)
+        mileageHelper(plateNumber,mileageData)
         return redirect('/')
     else:
-        plateNumber = request.form['plateNumber']
-        updateMileage = Mileage.query.filter_by(plateNumber=plateNumber).first()
+        mileage = Mileage.query.filter_by(plateNumber="887TTX").first()
+        print(mileage)
+        return render_template('mileage.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
-        return render_template('mileage.html')
+def checkAvailability(plateNumber):
+    availability = Available.query.filter_by(License_Plate="887TTX").first()
+    print(availability.License_Plate)
+    print(availability.Vehicle_Name)
+
+def setAvailability(plateNumber):
+    available = Available.query.filter_by(License_Plate=plateNumber).first()
+    available.availability = "Reserved"
+    db.session.commit()
+
+def mileageHelper(plateNumber,mileageDate):
+    #PRE: Retrieve data based on plateNumber for update
+    #POST:Updates Mileage Table
+    mileage = Mileage.query.filter_by(plateNumber= plateNumber).first()
+    mileage.departure= mileageDate[0]
+    mileage.beginMileage=mileageDate[1] 
+    mileage.endMileage= mileageDate[2] 
+    mileage.totalMiles= mileageDate[3]
+    mileage.driverName= mileageDate[4]
+    mileage.plateNumber = mileageDate[5]
+    mileage.destination = mileageDate[6]
+    mileage.course = mileageDate[7]
+    mileage.signature = mileageDate[8]
+    mileage.comments = mileageDate[9]
+    db.session.commit()
+
+
 
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
 # POST request updates the request table by inserting a new record in the request table in thee database
-@app.route('/request_form')
-#@login_required - not needed right now
+@app.route('/request_form', methods=['GET','POST'])
 def tsvr_form():
-    return render_template('tsvr_form.html', userAuth=current_user.is_authenticated)
+    formSuccess = True
+    if request.method == 'GET':
+        return render_template('tsvr_form.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    date = str(request.form['date'])
+    name = request.form['name']
+    dept = request.form['dept']
+    courseNum = request.form['courseNum']
+    phoneNum = request.form['phoneNum']
+    vanNum = request.form['vanNum']
+    explorerNum = request.form['explorerNum']
+    suburbanNum = request.form['suburbanNum']
+    equipment = request.form['equipment']
+    lands = request.form['lands']
+    destination = request.form['destination']
+    participantsNum = request.form['participantsNum']
+    tripPurpose = request.form['tripPurpose']
+    pickupDate = str(request.form['pickupDate'])
+    pickupTime = str(request.form['pickupTime'])
+    returnDate = str(request.form['returnDate'])
+    returnTime = str(request.form['returnTime'])
+    operator1 = request.form['operator1']
+    operator2 = request.form['operator2']
+    operator3 = request.form['operator3']
+    operator4 = request.form['operator4']
+    operator5 = request.form['operator5']
+    indexNum = request.form['indexNum']
+    accountNum = request.form['accountNum']
+    estMilesCost = request.form['estMilesCost']
+    #requestResult = Request.query.filter_by(name=name).first()
+    db.session.add(Requests(date=date, name=name, dept=dept, courseNum=courseNum, phoneNum=phoneNum, vanNum=vanNum, explorerNum=explorerNum, suburbanNum=suburbanNum, equipment=equipment, lands=lands,
+        destination=destination, participantsNum=participantsNum, tripPurpose=tripPurpose, pickupDate=pickupDate, pickupTime=pickupTime, returnDate=returnDate, returnTime=returnTime, operator1=operator1, operator2=operator2, operator3=operator3,
+        operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost))
+    db.session.commit()
+    #requestResult = Request.query.filter_by(name=name).first()
+    return render_template('home.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
-
+'''
 # @app.route('/view_entries') - this is a "home page" for nickie - contains a nav bar to navigate to the following routes:
 #   1. /view_request_list 2. /view_inspection_list 3. /view_available 4. /view_mileage_list
 # These are the four main routes for viewing the van data
@@ -311,7 +377,6 @@ def viewEntries():
 @login_required
 def viewEntries():
     return render_template('view_request_list.html')
-
 
 #@app.route('/view_request_detail/id') -  this is where Nickie can view a detailed view of the active requests in the database
 # The html is of the specific record in the database (noted by the id)
@@ -360,6 +425,7 @@ def viewEntries():
 @login_required
 def viewEntries():
     return render_template('view_available.html')
+'''
 
 @app.errorhandler(404)
 def err404(err):
