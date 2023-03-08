@@ -1,32 +1,38 @@
-{% extends "base.html" %}
-{% block title %} Mileage Form 1 {% endblock %}
-{% block content %}
-<html>
-	<body>
-		<p>VEHICLE MILEAGE RECORD</p>
-		<form action="" method="">
-			<label for = "deparT">Departure Date:</label>
-			<input type="date" id ="deparT" name="departure" required><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>VEHICLE MILEAGE RECORD</p>
+    <form action="mileageForm1" method="POST">
+				<label for = "id_plate"> Vehicle License Plate Number:</label>
+        <input type="text" id ="id_plate" name="plateNumber" maxlength="7" required><br>
 
-			<label for = "beginM">Beginning Mileage Reading:</label>
-			<input type="number" step="0.001" id ="biginM" name="beginMileage" min=0 required><br>
+				<label for = "id_dest">Destination:</label>
+        <input type="text" id ="id_dest" name="destination" required><br>
 
-			<label for = "endM">Ending Mileage Reading:</label>
-			<input type="number" step="0.001" id ="endM" name="endMileage" min="0" required><br>
+				<label for = "id_course">Course:</label>
+        <input type="text" id ="id_course" name="course" required><br>
 
-			<label for = "totalM"> Total Miles Traveled:</label>
-			<input type="number" step="0.001" id ="totalM" name="totalMiles" min="0" required><br>
+        <label for = "deparT">Departure Date:</label>
+        <input type="date" id ="deparT" name="departure" required><br>
 
-			<label for = "id_driver">Driver's Name Printed:</label>
-			<input type="text" id ="id_driver" name="driverName" required><br>
+        <label for = "beginM">Beginning Mileage Reading:</label>
+        <input type="number" step="0.001" id ="biginM" name="beginMileage" min=0 required><br>
 
-			<label for = "sign">Driver's Signature:</label>
-			<input type="datetime" id ="sign" name="signature" required><br><br>
+        <label for = "id_driver">Driver's Name Printed:</label>
+        <input type="text" id ="id_driver" name="driverName" required><br>
 
-			<label for = "comm">Isssues/Concerns with Vehicle:</label><br>
-			<textarea id="comm" name="comments" rows="4" cols="50"> </textarea><br>
-			<input type="submit" value="submit">
-		</form>
-	</body>
+        <label for = "sign">Driver's Signature:</label>
+        <input type="text" id ="sign" name="signature" required><br><br>
+
+        <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
+        <textarea id="comm" name="comments" rows="4" cols="50"> </textarea><br>
+        <input type="submit" value="submit">
+    </form>
+</body>
 </html>
-{% endblock %}
