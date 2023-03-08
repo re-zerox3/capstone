@@ -181,23 +181,24 @@ def viewUser():
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode=xyz123
 @app.route('/inspection_form',methods=["GET","POST"])
 def inspection():
-    if request.method=="POST":
-        # vehicleNum = request.form['vehicle #']
-        vehicleNum = request.args.get('qrcode', '')
-        todaysDate = str(request.form['todays date'])
-        returnDate = str(request.form['return date'])
-        requester = request.form['vehicle requster']
-        department = request.form['Department']
-        destination = request.form['Destination']
-        beginODO = request.form['beginODO']
-        comments = request.form['comments']
-        operator = request.form['Operator']
-        completed = "inspection completed"
+    if request.method=='POST':
+        vehicleNum = request.form['vehicleNum']
+        #vehicleNum = request.args.get('qrcode', '')
+        # todaysDate = str(request.form['todaysdate'])
+        # returnDate = str(request.form['returndate'])
+        # requester = request.form['vehicle requster']
+        # department = request.form['Department']
+        # destination = request.form['Destination']
+        # beginODO = request.form['beginODO']
+        # comments = request.form['comments']
+        # operator = request.form['Operator']
+        # completed = "inspection completed"
 
-        inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
-        db.session.add(inspection1)
-        db.session.commit()
-    else:
+        # inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
+        # db.session.add(inspection1)
+        # db.session.commit()  
+        return redirect('/')
+    if request.method == 'GET':
         return render_template('inspectionForm.html')
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page

@@ -18,7 +18,7 @@ class User(UserMixin, db.Model):
     password = db.Column(db.String(40), nullable=False)
  
 
-class Inspection(UserMixin, db.Model):
+class Inspections(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     vehicleNum = db.Column(db.String(8))
     todaysDate = db.Column(db.String(10))
@@ -158,12 +158,11 @@ def inspection():
         comments = request.form['comments']
         operator = request.form['Operator']
         completed = "inspection completed"
-        inspection1 = Inspection(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
+        inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator, completed=completed)
         db.session.add(inspection1)
         db.session.commit()
-        return redirect('/')
     else:
-        return render_template('inspection_form.html')
+        return render_template('inspectionForm.html')
 
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
@@ -353,10 +352,10 @@ def deleteEntries():
 # These are the four main routes for viewing the van data 
 # Note these are the only the list view of the data
 # supports only GET method returns a basic nav page with a tags to navigate routes (see above ^^)
-@app.route('/view_entries')
-@login_required
-def viewEntries1():
-    return render_template('viewEntries.html', queryList=Planes.query.filter_by(user_id=current_user.id).all(), userAuth=current_user.is_authenticated)
+# @app.route('/view_entries')
+# @login_required
+# def viewEntries1():
+#     return render_template('viewEntries.html', queryList=Planes.query.filter_by(user_id=current_user.id).all(), userAuth=current_user.is_authenticated)
 
 # @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
