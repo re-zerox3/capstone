@@ -171,6 +171,8 @@ def inspection():
 # POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode = 
 @app.route('/mileageForm1',methods=["GET","POST"])
 def mileage1():
+    #PRE: Renders a html to complete form
+    #POST: Updates mileage Table based on platerNumber
     if request.method=="POST":
         plateNumber = request.form['plateNumber']
         print(plateNumber)
@@ -202,6 +204,8 @@ def mileage1():
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
 @app.route('/mileageForm2', methods=["GET","POST"])
 def mileage2():
+    #PRE: Retrieve data from Mileage Table
+    #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
         mileageData = []
         print("hello world")
@@ -245,7 +249,7 @@ def mileage2():
         comments = request.form['comments']
         print("comments:",comments)
         mileageData.append(comments)
-        updateMileage(plateNumber,mileageData)
+        mileageHelper(plateNumber,mileageData)
         return redirect('/')
     else:
         mileage = Mileage.query.filter_by(plateNumber="887TTX").first()
@@ -262,7 +266,9 @@ def setAvailability(plateNumber):
     available.availability = "Reserved"
     db.session.commit()
 
-def updateMileage(plateNumber,mileageDate):
+def mileageHelper(plateNumber,mileageDate):
+    #PRE: Retrieve data based on plateNumber for update
+    #POST:Updates Mileage Table
     mileage = Mileage.query.filter_by(plateNumber= plateNumber).first()
     mileage.departure= mileageDate[0]
     mileage.beginMileage=mileageDate[1] 
