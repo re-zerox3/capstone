@@ -197,13 +197,15 @@ def inspection():
         db.session.commit()
         return redirect('/')
     else:
-        return render_template('inspection_form.html')
+        return render_template('inspectionForm.html')
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
 # POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
 @app.route('/mileageForm1',methods=["GET","POST"])
 def mileage1():
+    #PRE: Renders a html to complete form
+    #POST: Updates mileage Table based on platerNumber
     if request.method=="POST":
         plateNumber = request.form['plateNumber']
         print(plateNumber)
@@ -221,6 +223,7 @@ def mileage1():
         print(signature)
         comments = request.form['comments']
         print(comments)
+        setAvailability(plateNumber)
         mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
@@ -229,54 +232,90 @@ def mileage1():
         return render_template("mileage_1.html")
 
 
-
 # @app.route('/mileage_form2/?qrcode = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
 @app.route('/mileageForm2', methods=["POST","GET"])
 def mileage2():
+    #PRE: Retrieve data from Mileage Table
+    #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
+        mileageData = []
         print("hello world")
+
         departure = request.form['departure']
         print("departure:",departure)
+        mileageData.append(departure)
 
         beginMileage = request.form['beginMileage']
         print("beginM:",beginMileage)
+        mileageData.append(beginMileage)
 
         endMileage = request.form['endMileage']
         print("bMIles:",endMileage)
+        mileageData.append(endMileage)
 
         totalMiles= request.form['totalMiles']
         print("total:",totalMiles)
+        mileageData.append(totalMiles)
 
         driverName = request.form['driverName']
         print("driverName:",driverName)
+        mileageData.append(driverName)
 
         plateNumber = request.form['plateNumber']
         print("plateNum:",plateNumber)
+        mileageData.append(plateNumber)
 
         destination = request.form['destination']
         print("destination:",destination)
+        mileageData.append(destination)
 
         course = request.form['course']
         print("course:",course)
+        mileageData.append(course)
 
         signature = request.form['signature']
         print("signature:",signature)
+        mileageData.append(signature)
 
         comments = request.form['comments']
         print("comments:",comments)
-
-        mileage = Mileage(departure=departure, beginMileage=beginMileage, endMileage=endMileage, totalMiles=totalMiles, driverName=driverName,
-                     plateNumber=plateNumber, destination=destination, course=course, signature=signature,comments=comments)
-        db.session.add(mileage)
-        db.session.commit()
+        mileageData.append(comments)
+        mileageHelper(plateNumber,mileageData)
         return redirect('/')
     else:
-        plateNumber = request.form['plateNumber']
-        updateMileage = Mileage.query.filter_by(plateNumber=plateNumber).first()
+        mileage = Mileage.query.filter_by(plateNumber="887TTX").first()
+        print(mileage)
+        return render_template('mileage.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
-        return render_template('mileage.html')
+def checkAvailability(plateNumber):
+    availability = Available.query.filter_by(License_Plate="887TTX").first()
+    print(availability.License_Plate)
+    print(availability.Vehicle_Name)
+
+def setAvailability(plateNumber):
+    available = Available.query.filter_by(License_Plate=plateNumber).first()
+    available.availability = "Reserved"
+    db.session.commit()
+
+def mileageHelper(plateNumber,mileageDate):
+    #PRE: Retrieve data based on plateNumber for update
+    #POST:Updates Mileage Table
+    mileage = Mileage.query.filter_by(plateNumber= plateNumber).first()
+    mileage.departure= mileageDate[0]
+    mileage.beginMileage=mileageDate[1] 
+    mileage.endMileage= mileageDate[2] 
+    mileage.totalMiles= mileageDate[3]
+    mileage.driverName= mileageDate[4]
+    mileage.plateNumber = mileageDate[5]
+    mileage.destination = mileageDate[6]
+    mileage.course = mileageDate[7]
+    mileage.signature = mileageDate[8]
+    mileage.comments = mileageDate[9]
+    db.session.commit()
+
+
 
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
