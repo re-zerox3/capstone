@@ -6,6 +6,7 @@ from flask_login import LoginManager, UserMixin, \
 app = Flask(__name__, static_url_path='/static')
 
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -289,7 +290,7 @@ def mileage2():
     else:
         mileage = Mileage.query.filter_by(plateNumber="887TTX").first()
         print(mileage)
-        return render_template('mileage.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
+        return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
 def checkAvailability(plateNumber):
     availability = Available.query.filter_by(License_Plate="887TTX").first()
