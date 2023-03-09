@@ -11,32 +11,27 @@ app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
 
-####Classes for the different data types######
+####Classes for database tables######
 
-####user class - may not use
 class User(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(40))
     age = db.Column(db.Integer)
     username = db.Column(db.String(20), unique=True, nullable=False)
     password = db.Column(db.String(40), nullable=False)
-    #planes = db.relationship('Planes', backref='user')
 
-####inspection class
 class Inspections(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    vehicleNum = db.Column(db.String(8))
-    todaysDate = db.Column(db.String(10))
-    returnDate = db.Column(db.String(10))
-    requester = db.Column(db.String(40))
-    department = db.Column(db.String(40))
-    destination = db.Column(db.String(80))
-    beginODO = db.Column(db.String(40))
-    comments = db.Column(db.String(150))
-    operator = db.Column(db.String(40))
-    completed = db.Column(db.String(40))
+    vehicleNum = db.Column(db.String(8), nullable=False)
+    todaysDate = db.Column(db.String(10), nullable=False)
+    returnDate = db.Column(db.String(10), nullable=False)
+    requester = db.Column(db.String(40), nullable=False)
+    department = db.Column(db.String(40), nullable=False)
+    destination = db.Column(db.String(80), nullable=False)
+    beginODO = db.Column(db.String(40), nullable=False)
+    comments = db.Column(db.String(150), nullable=False)
+    operator = db.Column(db.String(40), nullable=False)
 
-####Mileage class
 class Mileage(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departure = db.Column(db.String(20),nullable=False)
@@ -50,13 +45,11 @@ class Mileage(UserMixin, db.Model):
     destination = db.Column(db.String(40), nullable=False)
     course = db.Column(db.String(40), nullable=False)
 
-####Available Class
 class Available(UserMixin, db.Model):
     License_Plate = db.Column(db.String,primary_key=True)
     Vehicle_Name = db.Column(db.String(40),nullable=False)
     availability = db.Column(db.String(10),nullable=False)
 
-###Request Class
 class Requests(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True, nullable=False)
     date = db.Column(db.String(40), nullable=False)
@@ -85,17 +78,12 @@ class Requests(UserMixin, db.Model):
     accountNum = db.Column(db.String(40), nullable=False)
     estMilesCost = db.Column(db.String(40), nullable=False)
 
-#db.create_all()
-#db.session.add(User(name='John Smith', age='45', username='admin', password='admin'))
-#db.session.commit()
-
 login_manager = LoginManager(app)
 login_manager.init_app(app)
 
 @login_manager.user_loader
 def load_user(uid):
     return User.query.get(uid)
-
 
 #######Capstone Routes#########
 
@@ -104,7 +92,7 @@ def load_user(uid):
 # a tags to the following routes, /login (for nickie) /request_form (for holly... and the like)
 # we will change this page to reflect comments
 @app.route('/')
-def index():
+def home():
     return render_template('home.html', userAuth=current_user.is_authenticated)
 
 
@@ -136,6 +124,7 @@ def logout():
     logout_user()
     return render_template('home.html', userAuth=current_user.is_authenticated)
 
+### Debugging Routes ###
 @app.route('/create_user', methods=['GET', 'POST'])
 def create():
     formSuccess = True
@@ -180,11 +169,10 @@ def viewUser():
 ## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode=xyz123
-@app.route('/inspection_form',methods=["GET","POST"])
+@app.route('/inspection_form', methods=["GET","POST"])
 def inspection():
     if request.method=='POST':
         vehicleNum = request.form['vehicleNum']
-        #vehicleNum = request.args.get('qrcode', '')
         todaysDate = str(request.form['todaysdate'])
         returnDate = str(request.form['returndate'])
         requester = request.form['requester']
@@ -199,13 +187,14 @@ def inspection():
         db.session.commit()
         return redirect('/')
 
-    if request.method == 'GET':
+    else:
+        #vehicleNum = request.args.get('qrcode', '') // This is for later, need to implement QR code stuff.
         return render_template('inspectionForm.html')
 
 # @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
 # POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
-@app.route('/mileageForm1',methods=["GET","POST"])
+@app.route('/mileageForm1', methods=["GET","POST"])
 def mileage1():
     #PRE: Renders a html to complete form
     #POST: Updates mileage Table based on platerNumber
@@ -226,7 +215,7 @@ def mileage1():
         print(signature)
         comments = request.form['comments']
         print(comments)
-        setAvailability(plateNumber)
+        setAvailability1(plateNumber)
         mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
@@ -297,9 +286,14 @@ def checkAvailability(plateNumber):
     print(availability.License_Plate)
     print(availability.Vehicle_Name)
 
-def setAvailability(plateNumber):
+def setAvailability1(plateNumber):
     available = Available.query.filter_by(License_Plate=plateNumber).first()
-    available.availability = "Reserved"
+    available.availability = "Checked Out"
+    db.session.commit()
+
+def setAvailability2(plateNumber):
+    available = Available.query.filter_by(License_Plate=plateNumber).first()
+    available.availability = "CheckedIn"
     db.session.commit()
 
 def mileageHelper(plateNumber,mileageDate):
@@ -317,8 +311,6 @@ def mileageHelper(plateNumber,mileageDate):
     mileage.signature = mileageDate[8]
     mileage.comments = mileageDate[9]
     db.session.commit()
-
-
 
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
@@ -362,16 +354,6 @@ def tsvr_form():
     return render_template('home.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 '''
-# @app.route('/view_entries') - this is a "home page" for nickie - contains a nav bar to navigate to the following routes:
-#   1. /view_request_list 2. /view_inspection_list 3. /view_available 4. /view_mileage_list
-# These are the four main routes for viewing the van data
-# Note these are the only the list view of the data
-# supports only GET method returns a basic nav page with a tags to navigate routes (see above ^^)
-@app.route('/view_entries')
-@login_required
-def viewEntries():
-    return render_template('viewEntries.html')
-
 # @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_request_detail/id'
