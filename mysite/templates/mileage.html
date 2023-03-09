@@ -1,4 +1,6 @@
-<!DOCTYPE html>
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -30,7 +32,7 @@
 
 				<label for = "returnDate"> Date Return:</label>
         <input type="date" id ="return_id" name="returnDate" required>
-        
+
 				<label for = "id_driver">Driver's Name Printed:</label>
 				<input type="text" id ="id_driver" name="driverName" value={{driverName}} required><br>
 
@@ -43,3 +45,4 @@
     </form>
 </body>
 </html>
+{% endblock %}

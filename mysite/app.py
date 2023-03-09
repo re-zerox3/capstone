@@ -193,11 +193,11 @@ def inspection():
         comments = request.form['comments']
         operator = request.form['operator']
 
-        # inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator)
-        # db.session.add(inspection1)
-        # db.session.commit()  
+        inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator)
+        db.session.add(inspection1)
+        db.session.commit()
         return redirect('/')
-    
+
     if request.method == 'GET':
         return render_template('inspectionForm.html')
 
@@ -306,8 +306,8 @@ def mileageHelper(plateNumber,mileageDate):
     #POST:Updates Mileage Table
     mileage = Mileage.query.filter_by(plateNumber= plateNumber).first()
     mileage.departure= mileageDate[0]
-    mileage.beginMileage=mileageDate[1] 
-    mileage.endMileage= mileageDate[2] 
+    mileage.beginMileage=mileageDate[1]
+    mileage.endMileage= mileageDate[2]
     mileage.totalMiles= mileageDate[3]
     mileage.driverName= mileageDate[4]
     mileage.plateNumber = mileageDate[5]
