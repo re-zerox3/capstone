@@ -182,7 +182,8 @@ def inspection():
         comments = request.form['comments']
         operator = request.form['operator']
 
-        inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department, destination=destination, beginODO=beginODO, comments=comments, operator=operator)
+        inspection1 = Inspections(vehicleNum=vehicleNum, todaysDate=todaysDate, returnDate=returnDate, requester=requester, department=department,
+            destination=destination, beginODO=beginODO, comments=comments, operator=operator)
         db.session.add(inspection1)
         db.session.commit()
         return redirect('/')
