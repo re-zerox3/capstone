@@ -1,12 +1,14 @@
 from flask import *
+from flask import request
 from flask_sqlalchemy import *
 from flask_login import LoginManager, UserMixin, \
     login_user, logout_user, current_user, login_required
 
+
 app = Flask(__name__, static_url_path='/static')
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -166,9 +168,9 @@ def update():
 def viewUser():
     return render_template('viewUserInfo.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
-## @app.route('/inspection_form/?qrcode = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
+## @app.route('/inspection_form/?code = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
-# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?qrcode=xyz123
+# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?code=xyz123
 @app.route('/inspection_form', methods=["GET","POST"])
 def inspection():
     if request.method=='POST':
@@ -186,15 +188,19 @@ def inspection():
             destination=destination, beginODO=beginODO, comments=comments, operator=operator)
         db.session.add(inspection1)
         db.session.commit()
+        print("inspection post")
         return redirect('/')
 
     else:
-        #vehicleNum = request.args.get('qrcode', '') // This is for later, need to implement QR code stuff.
-        return render_template('inspectionForm.html')
+        code = request.args.get('code') #// This is for later, need to implement QR code stuff.
+        # args = request.args
+        # code = request.args('code')
+        print("code", code)
+        return render_template('inspectionForm.html', vehicleNum=code)
 
-# @app.route('/mileage_form1/?qrcode = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
+# @app.route('/mileage_form1/?code = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
 # GET displays the 1st mileage form with license plate already filled in
-# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?qrcode =
+# POST request creates a new record in the mileage table and updates specific van in the available table to checked out, redirects to /mileage_form_2/?code =
 @app.route('/mileageForm1', methods=["GET","POST"])
 def mileage1():
     #PRE: Renders a html to complete form
@@ -225,7 +231,7 @@ def mileage1():
         return render_template("mileage_1.html")
 
 
-# @app.route('/mileage_form2/?qrcode = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
+# @app.route('/mileage_form2/?code = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
 # GET displays the 2nd mileage form with license plate already filled in
 # POST request updates a record in the mileage table and updates specific van in the available table to checked in, redirects to '/'
 @app.route('/mileageForm2', methods=["POST","GET"])
