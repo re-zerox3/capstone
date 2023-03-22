@@ -7,8 +7,9 @@ from flask_login import LoginManager, UserMixin, \
 
 app = Flask(__name__, static_url_path='/static')
 
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+# Please swap this back to the live one if you're working locally please.
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -171,6 +172,7 @@ def viewUser():
 ## @app.route('/inspection_form/?code = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
 # POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?code=xyz123
+# URL: http://xelectricsheepx.pythonanywhere.com/inspection_form
 @app.route('/inspection_form', methods=["GET","POST"])
 def inspection():
     if request.method=='POST':
@@ -363,22 +365,24 @@ def tsvr_form():
         formSuccess = False
         return render_template('tsvr_form.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
-'''
 # @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_request_detail/id'
 @app.route('/view_request_list')
 @login_required
-def viewEntries():
-    return render_template('view_request_list.html')
+def requestList():
+    return render_template('view_request_list.html', queryList=Requests.query.all(), userAuth=current_user.is_authenticated)
 
 #@app.route('/view_request_detail/id') -  this is where Nickie can view a detailed view of the active requests in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the request form
 @app.route('/view_request_detail')
 @login_required
-def viewEntries():
-    return render_template('view_request_detail.html')
+def requestDetail():
+    id = request.args.get('id')
+    return render_template('view_request_detail.html', queryList=Requests.query.filter_by(id=id).first(), userAuth=current_user.is_authenticated)
+
+'''
 
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)

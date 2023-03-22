@@ -1,12 +1,56 @@
-<!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <title>view requests - detail view</title>
-  </head>
-  <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
-  </body>
+{% extends "base.html" %}
+{% block title %} View Request {% endblock %}
+{% block content %}
+<html>
+    <h1>TRANSPORTATION SERVICES VEHICLE REQUEST</h1>
+    {% for request in queryList %}
+		<body>
+			<form action="/request_form" method="POST">
+				<label>Today's Date: </label><input type="date" name="date" value="request.date" required><br>
+				<label>Requester's Name: </label><input type="text" name="name" value="request.name" required><br>
+				<label>Dept: </label><input type="text" name="dept" value="request.dept" required><br>
+				<label>Course #: </label><input type="number" min="0" name="courseNum" value="request.courseNum" required><br>
+				<label>Phone #: </label><input type="phone" name="phoneNum" value="request.phoneNum" required><br><br>
+				<h2>PLEASE SELECT HOW MANY VEHICLES NEXT TO THE VEHICLE TYPE BELOW</h2><br>
+				<label>15-Passenger Van(.53/mile): </label><input type="number" min="0" name="vanNum" value="request.vanNum" required><br>
+				<label>Explorer (.53/mile): </label><input type="number" min="0" name="explorerNum" value="request.explorerNum" required><br>
+				<label>Suburban/Expedition (.53/mile): </label><input type="number" min="0" name="suburbanNum" value="request.suburbanNum" required><br>
+				<label>Special Equipment: </label><input type="text" name="equipment" value="request.equipment" required><br>
+				<label>Public Lands (BLM, NPS, etc.): </label><input type="text" name="lands" value="request.lands" required><br>
+				<label>Trip Destination: </label><input type="text" name="destination" value="request.destination" required><br>
+				<label>Estimated Number of Participants: </label><input type="number" min="0" name="participantsNum" value="request.participantsNum" required><br>
+				<label>Purpose of Trip: </label><input type="text" name="tripPurpose" value="request.tripPurpose" required><br>
+				<label>Vehicle Pick-Up Date/Time: </label><input type="date" name="pickupDate" value="request.pickupDate" required><input type="date" name="pickupTime" value="request.pickupTime" required><br>
+				<label>Return Date/Time: </label><input type="date" name="returnDate" value="request.returnDate" required><input type="date" name="returnTime" value="request.returnTime" required><br><br>
+				<label>Vehicle Operators: </label><br>
+				<input type="text" name="operator1" value=".operator1" required><br>
+				<input type="text" name="operator2" value="request.operator2"><br>
+				<input type="text" name="operator3" value="request.operator3"><br>
+				<input type="text" name="operator4" value="request.operator4"><br>
+				<input type="text" name="operator5" value="request.operator5"><br><br>
+				<h2>VEHICLE REQUEST CHARGE (Request will not be processed without this information): </h2><br>
+				<label>Index Number: </label><input type="text" name="indexNum" value="request.indexNum" required><br>
+				<label>Account Number: </label><input type="text" name="accountNum" value="request.accountNum" required><br>
+				<label>Estimated Miles and Cost: </label><input type="text" name="estMilesCost" value="request.estMilesCost" required><br><br>
+				<h2>Drivers of state fleet vehicles must have a valid driver’s license
+				and be over 18 years of age. In addition, they must be driving within
+				the course and scope of their employment at Western Colorado University.
+				Student Organizations will not be permitted to use University vehicles
+				unless a faculty, staff or student employee member is driving the vehicle.
+				Vehicle keys are available at the Transportation Services office during
+				normal business hours (8:00 am to 5:00 pm) Monday through Friday.
+				On the day of departure or on Friday afternoon for Saturday and Sunday departures.
+				If the trip is scheduled for an early morning departure before 8:00 am,
+				the vehicle should be picked up the day before.</h2><br><br>
+				<h2>PLEASE CHECK THE FOLLOWING: </h2><br>
+				<label>Operator(s) possess a valid driver’s license and is/are on the Master list: </label><input type="checkbox" name="dlAgreement" checked required><br>
+				<label>Operator(s) have completed the Transportation Services driver training and is/are on the Master List: </label><input type="checkbox" name="mlAgreement" checked required><br><br>
+				<h2>DEPARTMENT APPROVAL: </h2><br>
+				<label>By checking this box I am granting department approval: </label><input type="checkbox" name="depApproval" checked required><br>
+				<label>Enter Department Head/AVP Name: </label><input type="text" name="equipment"  required><br><br>
+				<input type="submit" value="SUBMIT">
+			</form>
+		</body>
+	{% endfor %}
 </html>
+{% endblock %}

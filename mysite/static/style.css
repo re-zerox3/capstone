@@ -41,11 +41,6 @@
 		border-collapse: collapse;
 	}
 
-	tr:nth-child(odd) {
-		background-color:blue;
-		color:red;
-	}
-
 	td, th {
 		border: thin solid black;
 		padding-left: 30px;
