@@ -424,7 +424,12 @@ def viewEntries():
 def viewEntries():
     return render_template('view_available.html')
 '''
-
+@app.route('/view_available')
+@login_required
+def viewAvailable():
+    available = Available.query.all()
+    return render_template('view_available.html', available = available)
+    
 @app.errorhandler(404)
 def err404(err):
     return render_template('404.html', err=err)
