@@ -8,8 +8,8 @@ from flask_login import LoginManager, UserMixin, \
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -171,7 +171,7 @@ def viewUser():
 
 ## @app.route('/inspection_form/?code = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
-# POST request inserts new record in the inspection table, redirects to the mileage1 route /mileage_form/?code=xyz123
+# POST request inserts new record in the inspection table, redirects to the mileage1 route /inspection_form/?code=xyz123
 # URL: http://xelectricsheepx.pythonanywhere.com/inspection_form
 @app.route('/inspection_form', methods=["GET","POST"])
 def inspection():
@@ -194,10 +194,7 @@ def inspection():
         return redirect('/')
 
     else:
-        code = request.args.get('code') #// This is for later, need to implement QR code stuff.
-        # args = request.args
-        # code = request.args('code')
-        print("code", code)
+        code = request.args.get("code") 
         return render_template('inspectionForm.html', vehicleNum=code)
 
 # @app.route('/mileage_form1/?code = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
@@ -209,28 +206,22 @@ def mileage1():
     #POST: Updates mileage Table based on platerNumber
     if request.method=="POST":
         plateNumber = request.form['plateNumber']
-        print(plateNumber)
         destination = request.form['destination']
-        print(destination)
         course = request.form['course']
-        print(course)
         departure = request.form['departure']
-        print(departure)
         beginMileage = request.form['beginMileage']
-        print(beginMileage)
         driverName = request.form['driverName']
-        print(driverName)
         signature = request.form['signature']
-        print(signature)
         comments = request.form['comments']
-        print(comments)
         setAvailability1(plateNumber)
-        mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, driverName=driverName,signature=signature,comments=comments)
+        mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, 
+                           driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
         return redirect('/')
     else:
-        return render_template("mileage_1.html")
+        code = request.args.get("code") 
+        return render_template("mileage_1.html", vehicleNum=code)
 
 
 # @app.route('/mileage_form2/?code = ') - this is first route visited by someone checking in a vehicle and follows after the 1st milegae form
@@ -242,7 +233,6 @@ def mileage2():
     #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
         mileageData = []
-        print("hello world")
 
         departure = request.form['departure']
         print("departure:",departure)
@@ -286,9 +276,11 @@ def mileage2():
         mileageHelper(plateNumber,mileageData)
         return redirect('/')
     else:
-        mileage = Mileage.query.filter_by(plateNumber="887TTX").first()
-        print(mileage)
-        return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
+        code = request.args.get("code") 
+        print("code", code)
+        mileage = Mileage.query.filter_by(plateNumber=code).first()
+        return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
+                               destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
 def checkAvailability(plateNumber):
     availability = Available.query.filter_by(License_Plate="887TTX").first()
