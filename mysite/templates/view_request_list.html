@@ -17,9 +17,9 @@
 			<td>{{ request.id }}</td>
 			<td>{{ request.name }}</td>
 			<td>{{ request.date }}</td>
-			<td><a href="http://xelectricsheepx.pythonanywhere.com/view_request_detail?id=request.id">View Request</a></td>
+			<td><a href="http://xelectricsheepx.pythonanywhere.com/view_request_detail?id={{ request.id }}">View Request</a></td>
 		</tr>
-	{% endfor %}	
+	{% endfor %}
 	</table>
 </html>
 {% endblock %}

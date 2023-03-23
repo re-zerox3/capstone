@@ -194,7 +194,7 @@ def inspection():
         return redirect('/')
 
     else:
-        code = request.args.get("code") 
+        code = request.args.get("code")
         return render_template('inspectionForm.html', vehicleNum=code)
 
 # @app.route('/mileage_form1/?code = ') - this is second route visited by someone checking out a vehicle and follows after the inspection form page
@@ -214,13 +214,13 @@ def mileage1():
         signature = request.form['signature']
         comments = request.form['comments']
         setAvailability1(plateNumber)
-        mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage, 
+        mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage,
                            driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
         return redirect('/')
     else:
-        code = request.args.get("code") 
+        code = request.args.get("code")
         return render_template("mileage_1.html", vehicleNum=code)
 
 
@@ -276,7 +276,7 @@ def mileage2():
         mileageHelper(plateNumber,mileageData)
         return redirect('/')
     else:
-        code = request.args.get("code") 
+        code = request.args.get("code")
         print("code", code)
         mileage = Mileage.query.filter_by(plateNumber=code).first()
         return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
@@ -421,7 +421,7 @@ def viewEntries():
 def viewAvailable():
     available = Available.query.all()
     return render_template('view_available.html', available = available)
-    
+
 @app.errorhandler(404)
 def err404(err):
     return render_template('404.html', err=err)
