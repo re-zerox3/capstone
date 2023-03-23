@@ -375,8 +375,7 @@ def requestList():
 def requestDetail():
     id = request.args.get('id')
     return render_template('view_request_detail.html', queryList=Requests.query.filter_by(id=id).first(), userAuth=current_user.is_authenticated)
-
-'''
+"""
 
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
@@ -394,30 +393,32 @@ def viewEntries():
 def viewEntries():
     return render_template('view_inspection_detail.html')
 
+"""
+
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
 # id is an a tag that redirects to '/view_mileage_detail/id'
+
 @app.route('/view_mileage_list')
 @login_required
-def viewEntries():
-    return render_template('view_mileage_list.html')
+def viewMileageList():
+    mileageList = Mileage.query.all()
+    return render_template('view_mileage_list.html', mileageList = mileageList)
 
 # @app.route('/view_mileage_detail/id') -  this is where Nickie can view a detailed view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the inspection form
 @app.route('/view_mileage_detail')
 @login_required
-def viewEntries():
-    return render_template('view_mileage_detail.html')
+def viewMileageDetail():
+    id = request.args.get("id")
+    mileageInfo = Mileage.query.filter_by(id = id).first()
+    return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
 
 # @app.route('/view_available') -  this is where Nickie can view the availability table in the database
 # The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)
 # Most basic site just a quick way for Nickie to view the fleet
-@app.route('/view_available')
-@login_required
-def viewEntries():
-    return render_template('view_available.html')
-'''
+
 @app.route('/view_available')
 @login_required
 def viewAvailable():
@@ -431,6 +432,7 @@ def err404(err):
 @app.errorhandler(401)
 def err401(err):
     return render_template('401.html', err=err)
+
 
 if __name__ == '__main__':
     app.run()
