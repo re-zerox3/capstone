@@ -80,6 +80,7 @@ class Requests(UserMixin, db.Model):
     indexNum = db.Column(db.String(40), nullable=False)
     accountNum = db.Column(db.String(40), nullable=False)
     estMilesCost = db.Column(db.String(40), nullable=False)
+    deptHead = db.Column(db.String(40), nullable=False)
 
 login_manager = LoginManager(app)
 login_manager.init_app(app)
@@ -346,11 +347,12 @@ def tsvr_form():
     indexNum = request.form['indexNum']
     accountNum = request.form['accountNum']
     estMilesCost = request.form['estMilesCost']
+    deptHead = request.form['deptHead']
     requestResult = Requests.query.filter_by(name=name).first()
     if requestResult is None:
         db.session.add(Requests(date=date, name=name, dept=dept, courseNum=courseNum, phoneNum=phoneNum, vanNum=vanNum, explorerNum=explorerNum, suburbanNum=suburbanNum, equipment=equipment, lands=lands,
             destination=destination, participantsNum=participantsNum, tripPurpose=tripPurpose, pickupDate=pickupDate, pickupTime=pickupTime, returnDate=returnDate, returnTime=returnTime, operator1=operator1, operator2=operator2, operator3=operator3,
-            operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost))
+            operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost, deptHead=deptHead))
         db.session.commit()
         return redirect('/')
     else:
