@@ -1,12 +1,48 @@
-<!DOCTYPE html>
-<html lang="">
-  <head>
-    <meta charset="utf-8">
-    <title>view mileage - detail view</title>
-  </head>
-  <body>
-    <header></header>
-    <main></main>
-    <footer></footer>
-  </body>
+{% extends "base.html" %}
+{% block title %} Home {% endblock %}
+{% block content %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>VEHICLE MILEAGE RECORD</p>
+    <form action="mileageForm2" method="POST">
+        <label for = "deparT">Departure Date:</label>
+				<input type="date" id ="deparT" name="departure" value={{mileageInfo.departure}} required>
+ 				<label for = "id_plate"> Vehicle License Plate Number:</label>
+				<input type="text" id ="id_plate" name="plateNumber" value={{mileage.plateNumber}} maxlength="7" required><br>
+
+
+        <label for = "beginM">Beginning Mileage Reading:</label>
+				<input type="number" step="0.001" id ="biginM" name="beginMileage" value={{mileage.beginMileage}} min=0 required>
+        <label for = "id_dest">Destination:</label>
+				<input type="text" id ="id_dest" name="destination" value={{mileage.destination}} required><br>
+
+        <label for = "endM">Ending Mileage Reading:</label>
+        <input type="number" step="0.001" id ="endM" name="endMileage" min="0" required>
+        <label for = "id_course">Course:</label>
+				<input type="text" id ="id_course" name="course" value={{mileage.course}} required><br>
+
+        <label for = "totalM"> Total Miles Traveled:</label>
+        <input type="number" step="0.001" id ="totalM" name="totalMiles" min="0" required>
+
+				<label for = "returnDate"> Date Return:</label>
+        <input type="date" id ="return_id" name="returnDate" required>
+
+				<label for = "id_driver">Driver's Name Printed:</label>
+				<input type="text" id ="id_driver" name="driverName" value={{mileage.driverName}} required><br>
+
+        <label for = "sign">Driver's Signature:</label>
+				<input type="text" id ="sign" name="signature" value={{mileage.signature}} required><br><br>
+
+        <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
+				<textarea id="comm" name="comments" value={{mileage.comments}} rows="4" cols="50"> </textarea><br>
+        <input type="submit" value="submit">
+    </form>
+</body>
 </html>
+{% endblock %}
