@@ -375,6 +375,26 @@ def requestList():
 def requestDetail():
     id = request.args.get('id')
     return render_template('view_request_detail.html', queryList=Requests.query.filter_by(id=id).first(), userAuth=current_user.is_authenticated)
+
+#@app.route('/deleteRequests/id') -  this is where Nickie can delete an existing request.
+# The html is of the specific record in the database (noted by the id)
+# The page deletes the request specified by the id
+@app.route('/deleteRequests', methods=['GET','POST'])
+@login_required
+def deleteEntries():
+    formSuccess = True
+    if request.method == 'GET':
+        id = request.args.get('id')
+        entry = Requests.query.filter_by(id=id).first()
+        if entry is not None:
+            db.session.delete(entry)
+            db.session.commit()
+            return redirect('/')
+        elif entry is None:
+            formSuccess = False
+            return render_template('deleteRequests.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+
+
 """
 
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database

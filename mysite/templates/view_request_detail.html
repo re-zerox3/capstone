@@ -47,8 +47,16 @@
 				<h2>DEPARTMENT APPROVAL: </h2><br>
 				<label>By checking this box I am granting department approval: </label><input type="checkbox" name="depApproval" checked required><br>
 				<label>Enter Department Head/AVP Name: </label><input type="text" name="deptHead" value="{{ queryList.deptHead }}" required><br><br>
-				<input type="submit" value="SUBMIT">
+				<input type="submit" value="UPDATE">
 			</form>
+			<br>
+			<form action="/view_request_list" method="GET">
+                <input type="submit" value="BACK TO REQUESTS LIST">
+            </form>
+            <br>
+            <form action="/view_request_detail?id={{ queryList.id }}" method="GET">
+                <input type="submit" value="DELETE THIS RECORD">
+            </form>
 		</body>
 </html>
 {% endblock %}
