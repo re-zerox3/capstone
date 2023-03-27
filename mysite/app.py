@@ -395,14 +395,12 @@ def deleteEntries():
             return render_template('deleteRequests.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 
-"""
-
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_inspection_detail/id'
-@app.route('/')
+@app.route('/view_inspection_list')
 @login_required
-def viewEntries():
+def viewInspectionList():
     return render_template('view_inspection_list.html')
 
 # @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
@@ -410,10 +408,9 @@ def viewEntries():
 # The page displays all the information that would've been in the inspection form
 @app.route('/view_inspection_detail')
 @login_required
-def viewEntries():
+def viewInspectionDetrail():
     return render_template('view_inspection_detail.html')
 
-"""
 
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
