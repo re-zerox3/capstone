@@ -409,7 +409,9 @@ def viewInspectionList():
 @app.route('/view_inspection_detail')
 @login_required
 def viewInspectionDetrail():
-    return render_template('view_inspection_detail.html')
+    id = request.args.get("id")
+    inspecInfo = Inspection.query.filter_by(id = id).first()
+    return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
 
 
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
