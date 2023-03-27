@@ -349,15 +349,11 @@ def tsvr_form():
     estMilesCost = request.form['estMilesCost']
     deptHead = request.form['deptHead']
     requestResult = Requests.query.filter_by(name=name).first()
-    if requestResult is None:
-        db.session.add(Requests(date=date, name=name, dept=dept, courseNum=courseNum, phoneNum=phoneNum, vanNum=vanNum, explorerNum=explorerNum, suburbanNum=suburbanNum, equipment=equipment, lands=lands,
-            destination=destination, participantsNum=participantsNum, tripPurpose=tripPurpose, pickupDate=pickupDate, pickupTime=pickupTime, returnDate=returnDate, returnTime=returnTime, operator1=operator1, operator2=operator2, operator3=operator3,
-            operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost, deptHead=deptHead))
-        db.session.commit()
-        return redirect('/')
-    else:
-        formSuccess = False
-        return render_template('tsvr_form.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    db.session.add(Requests(date=date, name=name, dept=dept, courseNum=courseNum, phoneNum=phoneNum, vanNum=vanNum, explorerNum=explorerNum, suburbanNum=suburbanNum, equipment=equipment, lands=lands,
+        destination=destination, participantsNum=participantsNum, tripPurpose=tripPurpose, pickupDate=pickupDate, pickupTime=pickupTime, returnDate=returnDate, returnTime=returnTime, operator1=operator1, operator2=operator2, operator3=operator3,
+        operator4=operator4, operator5=operator5, indexNum=indexNum, accountNum=accountNum, estMilesCost=estMilesCost, deptHead=deptHead))
+    db.session.commit()
+    return redirect('/')
 
 # @app.route('/view_request_list') - this is a page where nickie can view a list view of the active requests in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
