@@ -117,7 +117,7 @@ def login():
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     if user.password == password:
         login_user(user)
-        return render_template('home.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+        return render_template('viewEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 # @app.route('/logout') - visitng this route logs out user
 # Logs Nickie out of the webapp
@@ -275,6 +275,7 @@ def mileage2():
         print("comments:",comments)
         mileageData.append(comments)
         mileageHelper(plateNumber,mileageData)
+        setAvailability2(plateNumber)
         return redirect('/')
     else:
         code = request.args.get("code")
@@ -284,7 +285,7 @@ def mileage2():
                                destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
 def checkAvailability(plateNumber):
-    availability = Available.query.filter_by(License_Plate="887TTX").first()
+    availability = Available.query.filter_by(License_Plate=plateNumber).first()
     print(availability.License_Plate)
     print(availability.Vehicle_Name)
 
@@ -406,8 +407,26 @@ def viewInspectionList():
 @login_required
 def viewInspectionDetrail():
     id = request.args.get("id")
-    inspecInfo = Inspection.query.filter_by(id = id).first()
+    inspecInfo = Inspections.query.filter_by(id = id).first()
     return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
+
+#@app.route('/deleteInpsections/id') -  this is where Nickie can delete an existing request.
+# The html is of the specific record in the database (noted by the id)
+# The page deletes the request specified by the id
+@app.route('/deleteRequests', methods=['GET','POST'])
+@login_required
+def deleteEntries():
+    formSuccess = True
+    if request.method == 'GET':
+        id = request.args.get('id')
+        entry = Inspections.query.filter_by(id=id).first()
+        if entry is not None:
+            db.session.delete(entry)
+            db.session.commit()
+            return redirect('/')
+        elif entry is None:
+            formSuccess = False
+            return render_template('deleteRequests.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database
