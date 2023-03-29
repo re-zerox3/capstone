@@ -233,27 +233,7 @@ def mileage2():
     #PRE: Retrieve data from Mileage Table
     #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
-        mileageData = []
-        departure = request.form['departure']
-        mileageData.append(departure)
-        beginMileage = request.form['beginMileage']
-        mileageData.append(beginMileage)
-        endMileage = request.form['endMileage']
-        mileageData.append(endMileage)
-        totalMiles= request.form['totalMiles']
-        mileageData.append(totalMiles)
-        driverName = request.form['driverName']
-        mileageData.append(driverName)
-        plateNumber = request.form['plateNumber']
-        mileageData.append(plateNumber)
-        destination = request.form['destination']
-        mileageData.append(destination)
-        course = request.form['course']
-        mileageData.append(course)
-        signature = request.form['signature']
-        mileageData.append(signature)
-        comments = request.form['comments']
-        mileageData.append(comments)
+        mileageData = getValues(request)
         mileageHelper(plateNumber,mileageData)
         setAvailability(plateNumber, "CheckedIn")
         return redirect('/')
@@ -264,6 +244,31 @@ def mileage2():
         return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
                                destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
+#______________MILEAGE HELPERS-----------------------------
+def getValues():
+    mileageData = []
+    departure = request.form['departure']
+    mileageData.append(departure)
+    beginMileage = request.form['beginMileage']
+    mileageData.append(beginMileage)
+    endMileage = request.form['endMileage']
+    mileageData.append(endMileage)
+    totalMiles= request.form['totalMiles']
+    mileageData.append(totalMiles)
+    driverName = request.form['driverName']
+    mileageData.append(driverName)
+    plateNumber = request.form['plateNumber']
+    mileageData.append(plateNumber)
+    destination = request.form['destination']
+    mileageData.append(destination)
+    course = request.form['course']
+    mileageData.append(course)
+    signature = request.form['signature']
+    mileageData.append(signature)
+    comments = request.form['comments']
+    mileageData.append(comments)
+    return mileageDate
+    
 def checkAvailability(plateNumber):
     availability = Available.query.filter_by(License_Plate=plateNumber).first()
     print(availability.License_Plate)
@@ -289,6 +294,7 @@ def mileageHelper(plateNumber,mileageDate):
     mileage.signature = mileageDate[8]
     mileage.comments = mileageDate[9]
     db.session.commit()
+#__________________END HELPERS_______________________________________________
 
 ## @app.route('/request_form') -  this is where Holly and end users can fill out a request for the vehicles necessary
 # GET request displays a web page for filling out the form
@@ -422,7 +428,7 @@ def viewMileageList():
 def viewMileageDetail():
     if request.method =="POST":
         if request.form["submit"] == "UPDATE":
-
+            mileageData = getValues(request)
             mileageHelper(plateNumbe,mileageDate)
         else:
             entry = Mileage.query.filter_by(id = reques.form["id"]).first()
