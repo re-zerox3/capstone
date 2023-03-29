@@ -1,0 +1,18 @@
+
+{% extends "base.html" %}
+{% block title %}ViewAll{% endblock %}
+{% block content %}
+<h1>View Available Vehicles<h1>
+								<table>
+												<th>License Plate</th>
+												<th>Vehicle Name</th>
+												<th>Availabilty</th>
+												{% for available in available %}
+												<tr>
+																<td>{{ available.License_Plate }}</td>
+																<td>{{ available.Vehicle_Name }}</td>
+																<td>{{ available.availability }}</td>
+												</tr>
+												{% endfor %}
+								</table>
+								{% endblock %}

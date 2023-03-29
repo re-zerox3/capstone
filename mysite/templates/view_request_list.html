@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} View All Requests {% endblock %}
+{% block content %}
+<html>
+  <head>
+    <title>View Requests</title>
+  </head>
+  <table>
+		<tr>
+			<th>Id</th>
+			<th>Requester Name</th>
+			<th>Requester Date</th>
+			<th>View</th>
+		</tr>
+	{% for request in queryList %}
+		<tr>
+			<td>{{ request.id }}</td>
+			<td>{{ request.name }}</td>
+			<td>{{ request.date }}</td>
+			<td><a href="http://xelectricsheepx.pythonanywhere.com/view_request_detail?id={{ request.id }}">View Request</a></td>
+		</tr>
+	{% endfor %}
+	</table>
+</html>
+{% endblock %}

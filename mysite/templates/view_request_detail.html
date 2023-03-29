@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %} View Request {% endblock %}
+{% block content %}
+<html>
+    <h1>TRANSPORTATION SERVICES VEHICLE REQUEST</h1>
+		<body>
+			<form action="/request_form" method="POST">
+				<label>Today's Date: </label><input type="date" name="date" value="{{ queryList.date }}" required><br>
+				<label>Requester's Name: </label><input type="text" name="name" value="{{ queryList.name }}" required><br>
+				<label>Dept: </label><input type="text" name="dept" value="{{ queryList.dept }}" required><br>
+				<label>Course #: </label><input type="number" min="0" name="courseNum" value="{{ queryList.courseNum }}" required><br>
+				<label>Phone #: </label><input type="phone" name="phoneNum" value="{{ queryList.phoneNum }}" required><br><br>
+				<h2>PLEASE SELECT HOW MANY VEHICLES NEXT TO THE VEHICLE TYPE BELOW</h2><br>
+				<label>15-Passenger Van(.53/mile): </label><input type="number" min="0" name="vanNum" value="{{ queryList.vanNum }}" required><br>
+				<label>Explorer (.53/mile): </label><input type="number" min="0" name="explorerNum" value="{{ queryList.explorerNum }}" required><br>
+				<label>Suburban/Expedition (.53/mile): </label><input type="number" min="0" name="suburbanNum" value="{{ queryList.suburbanNum }}" required><br>
+				<label>Special Equipment: </label><input type="text" name="equipment" value="{{ queryList.equipment }}" required><br>
+				<label>Public Lands (BLM, NPS, etc.): </label><input type="text" name="lands" value="{{ queryList.lands }}" required><br>
+				<label>Trip Destination: </label><input type="text" name="destination" value="{{ queryList.destination }}" required><br>
+				<label>Estimated Number of Participants: </label><input type="number" min="0" name="participantsNum" value="{{ queryList.participantsNum }}" required><br>
+				<label>Purpose of Trip: </label><input type="text" name="tripPurpose" value="{{ queryList.tripPurpose }}" required><br>
+				<label>Vehicle Pick-Up Date/Time: </label><input type="date" name="pickupDate" value="{{ queryList.pickupDate }}" required><input type="date" name="pickupTime" value="{{ queryList.pickupTime }}" required><br>
+				<label>Return Date/Time: </label><input type="date" name="returnDate" value="{{ queryList.returnDate }}" required><input type="date" name="returnTime" value="{{ queryList.returnTime }}" required><br><br>
+				<label>Vehicle Operators: </label><br>
+				<input type="text" name="operator1" value="{{ queryList.operator1 }}" required><br>
+				<input type="text" name="operator2" value="{{ queryList.operator2 }}"><br>
+				<input type="text" name="operator3" value="{{ queryList.operator3 }}"><br>
+				<input type="text" name="operator4" value="{{ queryList.operator4 }}"><br>
+				<input type="text" name="operator5" value="{{ queryList.operator5 }}"><br><br>
+				<h2>VEHICLE REQUEST CHARGE (Request will not be processed without this information): </h2><br>
+				<label>Index Number: </label><input type="text" name="indexNum" value="{{ queryList.indexNum }}" required><br>
+				<label>Account Number: </label><input type="text" name="accountNum" value="{{ queryList.accountNum }}" required><br>
+				<label>Estimated Miles and Cost: </label><input type="text" name="estMilesCost" value="{{ queryList.estMilesCost }}" required><br><br>
+				<h2>Drivers of state fleet vehicles must have a valid driver’s license
+				and be over 18 years of age. In addition, they must be driving within
+				the course and scope of their employment at Western Colorado University.
+				Student Organizations will not be permitted to use University vehicles
+				unless a faculty, staff or student employee member is driving the vehicle.
+				Vehicle keys are available at the Transportation Services office during
+				normal business hours (8:00 am to 5:00 pm) Monday through Friday.
+				On the day of departure or on Friday afternoon for Saturday and Sunday departures.
+				If the trip is scheduled for an early morning departure before 8:00 am,
+				the vehicle should be picked up the day before.</h2><br><br>
+				<h2>PLEASE CHECK THE FOLLOWING: </h2><br>
+				<label>Operator(s) possess a valid driver’s license and is/are on the Master list: </label><input type="checkbox" name="dlAgreement" checked required><br>
+				<label>Operator(s) have completed the Transportation Services driver training and is/are on the Master List: </label><input type="checkbox" name="mlAgreement" checked required><br><br>
+				<h2>DEPARTMENT APPROVAL: </h2><br>
+				<label>By checking this box I am granting department approval: </label><input type="checkbox" name="depApproval" checked required><br>
+				<label>Enter Department Head/AVP Name: </label><input type="text" name="deptHead" value="{{ queryList.deptHead }}" required><br><br>
+				<input type="submit" value="UPDATE">
+			</form>
+			<br>
+			<form action="/view_request_list" method="GET">
+                <input type="submit" value="BACK TO REQUESTS LIST">
+            </form>
+            <br>
+            <form action="/deleteRequest?id={{ queryList.id }}" method="GET">
+                <input type="submit" value="DELETE THIS RECORD">
+            </form>
+		</body>
+</html>
+{% endblock %}

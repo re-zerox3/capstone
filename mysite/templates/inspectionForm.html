@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block title %} Inspection Form {% endblock %}
+{% block content %}
+<body>
+    <h1>Transportation Services Vehicle Inspection Form</h1>
+
+    <form action="/inspection_form" method="POST">
+        Vehicle #: <input type="text" name="vehicleNum" value={{vehicleNum}} required><br>
+        Todays Date: <input type="date" name="todaysdate" value="" required><br>
+        Vehicle Return Date: <input type="date" name="returndate" value="" required><br>
+        Name of Vehicle Requester: <input type="text" name="requester" value="" required><br>
+        Department: <input type="text" name="department" value="" required><br>
+        Destination: <input type="text" name="destination" value="" required><br>
+        Beginning Odometer Reading: <input type="text" name="beginODO" value="" required><br>
+        <p><label for="comments">Please add any comments of noticed dents and damages:</label></p>
+        <textarea id="comments" name="comments" rows="4" cols="50"></textarea>
+        <br>
+        <h3>Operators responsibility</h3><br>
+        <p>As the driver of a state owned vehicle, I understand that I am covered by insurance only if I am
+            driving within the course and scope of my employment with the State of Colorado or I am an authorized volunteer acting at the request,
+            for the benfit, and under the control of the State of Colorado. I accept responsibilitiy for the safety and conduct of the passengers
+            I am transporting in the vehicle and the reasonable care of the vehicle. I certify that I am in possesion at the time of a valid driver's license
+            appropriate to the vehicle to be driven. I will not transfer control of this vehicle to anyone  who is not on the signed request. I further understand that
+            consumption and/or possesion of alcholic beverages and/or illegal substances is strictly prohibited in the State of Colorado's vehicles.
+        </p>
+        Vehicle Operator: <input type="text" name="operator" value="" required><br>
+        <h3>I have inspected thus assigned motor pool vehicle and find the following damage as noted in the illustration below.</h3>
+        <h3>I have inspected the equipment checkilist and can verify that all of the follwoing are present in this vehicle</h3>
+        <input type="checkbox" id="fire extinguiser" name="fireExtinguisherCheckBox" value="">
+        <label for="fire extinguiser"> Fire extinguiser</label><br>
+
+        <input type="checkbox" id="First Aid Kit" name="firstAidKitCheckBox" value="" required>
+        <label for="First Aid Kit"> First Aid Kit</label><br>
+
+        <input type="checkbox" id="Tire Chains" name="tireChainsCheckBox" value="" required>
+        <label for="Tire Chains"> Tire Chains</label><br>
+
+        <input type="checkbox" id="Cargo net" name="cargoNetCheckBox" value="" required>
+        <label for="Cargo Net"> Cargo Net</label><br>
+
+        <input type="checkbox" id="Ice Scraper/Brush" name="scraperAndBrushCheckBox" value="" required>
+        <label for="Ice Scraper/Brush"> Ice Scraper/Brush</label><br>
+
+        <input type="checkbox" id="Spare Tire" name="spareTireCheckBox" value="" required>
+        <label for="Spare Tire"> Spare Tire</label><br>
+
+        <input type="checkbox" id="Tire Jack/Spare tire tools" name="jack/toolsCheckBox" value="" required>
+        <label for="Tire Jack/Spare tire tools"> Tire Jack/Spare tire tools</label><br>
+
+        <input type="checkbox" id="Toolbox" name="toolboxCheckBox" value="" required>
+        <label for="Toolbox"> Toolbox</label><br>
+
+        <input type="checkbox" id="trailer hitch" name="trailerHitchCheckBox" value="" required>
+        <label for="trailer hitch"> Trailer Hitch and Ball</label><br>
+
+        <br>
+        By submitting this form I sign as the operator of this vehicle <br>
+
+        <input type="submit" value = "submit">
+    </form>
+</body>
+{% endblock %}
