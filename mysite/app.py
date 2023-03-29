@@ -234,45 +234,25 @@ def mileage2():
     #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
         mileageData = []
-
         departure = request.form['departure']
-        print("departure:",departure)
         mileageData.append(departure)
-
         beginMileage = request.form['beginMileage']
-        print("beginM:",beginMileage)
         mileageData.append(beginMileage)
-
         endMileage = request.form['endMileage']
-        print("bMIles:",endMileage)
         mileageData.append(endMileage)
-
         totalMiles= request.form['totalMiles']
-        print("total:",totalMiles)
         mileageData.append(totalMiles)
-
         driverName = request.form['driverName']
-        print("driverName:",driverName)
         mileageData.append(driverName)
-
         plateNumber = request.form['plateNumber']
-        print("plateNum:",plateNumber)
         mileageData.append(plateNumber)
-
         destination = request.form['destination']
-        print("destination:",destination)
         mileageData.append(destination)
-
         course = request.form['course']
-        print("course:",course)
         mileageData.append(course)
-
         signature = request.form['signature']
-        print("signature:",signature)
         mileageData.append(signature)
-
         comments = request.form['comments']
-        print("comments:",comments)
         mileageData.append(comments)
         mileageHelper(plateNumber,mileageData)
         setAvailability2(plateNumber)
