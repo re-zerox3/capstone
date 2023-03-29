@@ -214,7 +214,7 @@ def mileage1():
         driverName = request.form['driverName']
         signature = request.form['signature']
         comments = request.form['comments']
-        setAvailability1(plateNumber)
+        setAvailability(plateNumber, "Checked Out")
         mileage1 = Mileage(plateNumber=plateNumber,course=course,destination=destination,departure=departure,beginMileage=beginMileage,
                            driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
@@ -255,7 +255,7 @@ def mileage2():
         comments = request.form['comments']
         mileageData.append(comments)
         mileageHelper(plateNumber,mileageData)
-        setAvailability2(plateNumber)
+        setAvailability(plateNumber, "CheckedIn")
         return redirect('/')
     else:
         code = request.args.get("code")
@@ -269,14 +269,9 @@ def checkAvailability(plateNumber):
     print(availability.License_Plate)
     print(availability.Vehicle_Name)
 
-def setAvailability1(plateNumber):
+def setAvailability(plateNumber,status):
     available = Available.query.filter_by(License_Plate=plateNumber).first()
-    available.availability = "Checked Out"
-    db.session.commit()
-
-def setAvailability2(plateNumber):
-    available = Available.query.filter_by(License_Plate=plateNumber).first()
-    available.availability = "CheckedIn"
+    available.availability = status
     db.session.commit()
 
 def mileageHelper(plateNumber,mileageDate):
@@ -425,9 +420,23 @@ def viewMileageList():
 @app.route('/view_mileage_detail')
 @login_required
 def viewMileageDetail():
-    id = request.args.get("id")
-    mileageInfo = Mileage.query.filter_by(id = id).first()
-    return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
+    if request.method =="POST":
+        if request.form["submit"] == "UPDATE":
+
+            mileageHelper(plateNumbe,mileageDate)
+        else:
+            entry = Mileage.query.filter_by(id = reques.form["id"]).first()
+            if entry is not None:
+                db.session.delete(entry)
+                db.session.commit()
+                return redirect('/view_mileage_list')
+            else:
+                formSuccess = False
+                return redirect('/view_mileage_list', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    else:
+        id = request.args.get("id")
+        mileageInfo = Mileage.query.filter_by(id = id).first()
+        return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
 
 # @app.route('/view_available') -  this is where Nickie can view the availability table in the database
 # The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)

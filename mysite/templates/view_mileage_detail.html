@@ -11,6 +11,7 @@
 <body>
     <p>VEHICLE MILEAGE RECORD</p>
     <form action="view_mileage_detail" method="POST">
+				<input type="hidden"  name="id" value={{mileageInfo.id}}>
         <label for = "deparT">Departure Date:</label>
 				<input type="date" id ="deparT" name="departure" value={{mileageInfo.departure}} required>
  				<label for = "id_plate"> Vehicle License Plate Number:</label>
@@ -41,7 +42,8 @@
 
         <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
 				<textarea id="comm" name="comments" value={{mileageInfo.comments}} rows="4" cols="50"> </textarea><br>
-        <input type="submit" value="update">
+        <input type="submit" name = "submit" value="UPDATE">
+        <input type="submit" name = "submit" value="DELETE">
     </form>
 </body>
 </html>
