@@ -268,7 +268,7 @@ def getValues():
     comments = request.form['comments']
     mileageData.append(comments)
     return mileageDate
-    
+
 def checkAvailability(plateNumber):
     availability = Available.query.filter_by(License_Plate=plateNumber).first()
     print(availability.License_Plate)
@@ -354,12 +354,12 @@ def requestDetail():
     id = request.args.get('id')
     return render_template('view_request_detail.html', queryList=Requests.query.filter_by(id=id).first(), userAuth=current_user.is_authenticated)
 
-#@app.route('/deleteRequests/id') -  this is where Nickie can delete an existing request.
+#@app.route('/delete/id') -  this is where Nickie can delete an existing record.
 # The html is of the specific record in the database (noted by the id)
 # The page deletes the request specified by the id
-@app.route('/deleteRequests', methods=['GET','POST'])
+@app.route('/deleteRequest', methods=['GET','POST'])
 @login_required
-def deleteEntries():
+def deleteRequests():
     formSuccess = True
     if request.method == 'GET':
         id = request.args.get('id')
@@ -391,12 +391,12 @@ def viewInspectionDetrail():
     inspecInfo = Inspections.query.filter_by(id = id).first()
     return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
 
-#@app.route('/deleteInpsections/id') -  this is where Nickie can delete an existing request.
+#@app.route('/delete/id') -  this is where Nickie can delete an existing record.
 # The html is of the specific record in the database (noted by the id)
 # The page deletes the request specified by the id
-@app.route('/deleteRequests', methods=['GET','POST'])
+@app.route('/deleteInspection', methods=['GET','POST'])
 @login_required
-def deleteEntries():
+def deleteInspection():
     formSuccess = True
     if request.method == 'GET':
         id = request.args.get('id')
