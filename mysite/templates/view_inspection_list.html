@@ -4,17 +4,17 @@
 {% block content %}
 <h1>View Inspection List<h1>
 <table>
-				<th>IDs</th>
-				<th>Plate Numbers</th>
-				<th>Requester</th>
-				{% for inspection in inspecList %}
-				<tr>
-								<td>{{ inspection.id }}</td>
-								<td>{{ inspection.vehicleNum}}</td>
-								<td>{{ inspection.requester}}</td>
-								<td><a href="http://xelectricsheepx.pythonanywhere.com/view_inspection_detail?id={{ inspection.id }}">View detail</a></td>
-							
-				</tr>
-				{% endfor %}
+	<th>IDs</th>
+	<th>Plate Numbers</th>
+	<th>Requester</th>
+	{% for inspection in inspectionList %}
+	<tr>
+		<td>{{ inspection.id }}</td>
+		<td>{{ inspection.vehicleNum}}</td>
+		<td>{{ inspection.requester}}</td>
+		<td><a href="http://xelectricsheepx.pythonanywhere.com/view_inspection_detail?id={{ inspection.id }}">View detail</a></td>
+				
+	</tr>
+	{% endfor %}
 </table>
 {% endblock %}

@@ -423,14 +423,15 @@ def updateRequest():
 @app.route('/view_inspection_list')
 @login_required
 def viewInspectionList():
-    return render_template('view_inspection_list.html')
+    inspectionList = Inspections.query.all()
+    return render_template('view_inspection_list.html', inspectionList = inspectionList)
 
 # @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the inspection form
 @app.route('/view_inspection_detail')
 @login_required
-def viewInspectionDetrail():
+def viewInspectionDetail():
     if request.method=='POST':
         vehicleNum = request.form['vehicleNum']
         todaysDate = str(request.form['todaysdate'])
