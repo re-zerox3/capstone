@@ -387,9 +387,34 @@ def viewInspectionList():
 @app.route('/view_inspection_detail')
 @login_required
 def viewInspectionDetrail():
-    id = request.args.get("id")
-    inspecInfo = Inspections.query.filter_by(id = id).first()
-    return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
+    if request.method=='POST':
+        vehicleNum = request.form['vehicleNum']
+        todaysDate = str(request.form['todaysdate'])
+        returnDate = str(request.form['returndate'])
+        requester = request.form['requester']
+        department = request.form['department']
+        destination = request.form['destination']
+        beginODO = request.form['beginODO']
+        comments = request.form['comments']
+        operator = request.form['operator']
+
+        inspection = Inspections.query.filter_by(id= id).first()
+
+        inspection.vehicleNum = vehicleNum
+        inspection.todaysDate = todaysDate
+        inspection.returnDate = returnDate
+        inspection.requester = requester
+        inspection.department = department
+        inspection.destination = destination
+        inspection.beginODO = beginODO
+        inspection.comments = comments
+        inspection.operator = operator
+
+        db.session.commit()
+    else:
+        id = request.args.get("id")
+        inspecInfo = Inspections.query.filter_by(id = id).first()
+        return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
 
 #@app.route('/delete/id') -  this is where Nickie can delete an existing record.
 # The html is of the specific record in the database (noted by the id)
