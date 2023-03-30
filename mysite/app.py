@@ -267,7 +267,7 @@ def getValues():
     mileageData.append(signature)
     comments = request.form['comments']
     mileageData.append(comments)
-    return mileageDate
+    return mileageData
 
 def checkAvailability(plateNumber):
     availability = Available.query.filter_by(License_Plate=plateNumber).first()
@@ -499,7 +499,7 @@ def viewMileageDetail():
     if request.method =="POST":
         if request.form["submit"] == "UPDATE":
             mileageData = getValues(request)
-            mileageHelper(plateNumbe,mileageDate)
+            mileageHelper(plateNumber,mileageData)
         else:
             entry = Mileage.query.filter_by(id = reques.form["id"]).first()
             if entry is not None:
