@@ -117,7 +117,7 @@ def login():
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     if user.password == password:
         login_user(user)
-        return render_template('viewEntries.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+        return redirect('/')
 
 # @app.route('/logout') - visitng this route logs out user
 # Logs Nickie out of the webapp
@@ -354,7 +354,7 @@ def requestDetail():
     id = request.args.get('id')
     return render_template('view_request_detail.html', queryList=Requests.query.filter_by(id=id).first(), userAuth=current_user.is_authenticated)
 
-#@app.route('/delete/id') -  this is where Nickie can delete an existing record.
+#@app.route('/deleteRequest/id') -  this is where Nickie can delete an existing request.
 # The html is of the specific record in the database (noted by the id)
 # The page deletes the request specified by the id
 @app.route('/deleteRequest', methods=['GET','POST'])
@@ -370,7 +370,51 @@ def deleteRequest():
             return redirect('/')
         elif entry is None:
             formSuccess = False
-            return render_template('deleteRequests.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+            return render_template('delete.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+
+#@app.route('/updateRequest') -  this is where Nickie can update an existing request.
+# The html is of the specific record in the database (noted by the id)
+# The page updates the request specified by the id
+@app.route('/updateRequest', methods=['GET','POST'])
+@login_required
+def updateRequest():
+    formSuccess = True
+    if request.method == 'POST':
+        id = request.form['id']
+        entry = Requests.query.filter_by(id=id).first()
+        if entry is not None:
+            entry.date = str(request.form['date'])
+            entry.name = request.form['name']
+            entry.dept = request.form['dept']
+            entry.courseNum = request.form['courseNum']
+            entry.phoneNum = request.form['phoneNum']
+            entry.vanNum = request.form['vanNum']
+            entry.explorerNum = request.form['explorerNum']
+            entry.suburbanNum = request.form['suburbanNum']
+            entry.equipment = request.form['equipment']
+            entry.lands = request.form['lands']
+            entry.destination = request.form['destination']
+            entry.participantsNum = request.form['participantsNum']
+            entry.tripPurpose = request.form['tripPurpose']
+            entry.pickupDate = str(request.form['pickupDate'])
+            entry.pickupTime = str(request.form['pickupTime'])
+            entry.returnDate = str(request.form['returnDate'])
+            entry.returnTime = str(request.form['returnTime'])
+            entry.operator1 = request.form['operator1']
+            entry.operator2 = request.form['operator2']
+            entry.operator3 = request.form['operator3']
+            entry.operator4 = request.form['operator4']
+            entry.operator5 = request.form['operator5']
+            entry.indexNum = request.form['indexNum']
+            entry.accountNum = request.form['accountNum']
+            entry.estMilesCost = request.form['estMilesCost']
+            entry.deptHead = request.form['deptHead']
+            db.session.add(entry)
+            db.session.commit()
+            return redirect('/')
+        elif entry is None:
+            formSuccess = False
+            return render_template('view_request_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
@@ -391,9 +435,9 @@ def viewInspectionDetrail():
     inspecInfo = Inspections.query.filter_by(id = id).first()
     return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
 
-#@app.route('/delete/id') -  this is where Nickie can delete an existing record.
+#@app.route('/deleteInspection/id') -  this is where Nickie can delete an existing inspection.
 # The html is of the specific record in the database (noted by the id)
-# The page deletes the request specified by the id
+# The page deletes the inspection specified by the id
 @app.route('/deleteInspection', methods=['GET','POST'])
 @login_required
 def deleteInspection():
@@ -407,7 +451,7 @@ def deleteInspection():
             return redirect('/')
         elif entry is None:
             formSuccess = False
-            return render_template('deleteRequests.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+            return render_template('delete.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 
 # #@app.route('/view_mileage_list) -  this is where Nickie can view a list view of the active mileage records in the database

@@ -4,7 +4,8 @@
 <html>
     <h1>TRANSPORTATION SERVICES VEHICLE REQUEST</h1>
 		<body>
-			<form action="/request_form" method="POST">
+			<form action="/updateRequest" method="POST">
+			    <input type="number" name="id" value="{{ queryList.id }}" hidden><br>
 				<label>Today's Date: </label><input type="date" name="date" value="{{ queryList.date }}" required><br>
 				<label>Requester's Name: </label><input type="text" name="name" value="{{ queryList.name }}" required><br>
 				<label>Dept: </label><input type="text" name="dept" value="{{ queryList.dept }}" required><br>
