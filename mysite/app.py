@@ -359,7 +359,7 @@ def requestDetail():
 # The page deletes the request specified by the id
 @app.route('/deleteRequest', methods=['GET','POST'])
 @login_required
-def deleteRequests():
+def deleteRequest():
     formSuccess = True
     if request.method == 'GET':
         id = request.args.get('id')
