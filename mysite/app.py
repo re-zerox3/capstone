@@ -423,8 +423,8 @@ def updateRequest():
 @app.route('/view_inspection_list')
 @login_required
 def viewInspectionList():
-    inspectionList = Inspections.query.all()
-    return render_template('view_inspection_list.html', inspectionList = inspectionList)
+    #console.log("THIS IS A TEST")
+    return render_template('viewInspectionList.html', inspectionList=Inspections.query.all(), userAuth=current_user.is_authenticated)
 
 # @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
 # The html is of the specific record in the database (noted by the id)
@@ -505,7 +505,7 @@ def viewMileageDetail():
             if entry is not None:
                 db.session.delete(entry)
                 db.session.commit()
-                return redirect('/view_mileage_list')
+                return redirect('/view_mileage_list', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
             else:
                 formSuccess = False
                 return redirect('/view_mileage_list', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
