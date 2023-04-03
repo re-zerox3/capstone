@@ -8,8 +8,8 @@ from flask_login import LoginManager, UserMixin, \
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -38,6 +38,7 @@ class Inspections(UserMixin, db.Model):
 class Mileage(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     departure = db.Column(db.String(20),nullable=False)
+    arrival = db.Column(db.String(20),nullable=False)
     beginMileage = db.Column(db.Integer)
     endMileage = db.Column(db.Integer)
     totalMiles = db.Column(db.Integer)
@@ -235,8 +236,8 @@ def mileage2():
     if request.method == "POST":
         mileageValues = getValues(request)
         mileageHelper(mileageValues)
-        plateNumber = mileageValues[5]
-        setAvailability(plateNumber, "CheckedIn")
+        plateNumber = mileageValues[6]
+        setAvailability(plateNumber, "Checked In")
         return redirect('/')
     else:
         code = request.args.get("code")
@@ -256,6 +257,8 @@ def getValues(request):
     mileageData.append(endMileage)
     totalMiles= request.form['totalMiles']
     mileageData.append(totalMiles)
+    arrival = request.form['returnDate']
+    mileageData.append(arrival)
     driverName = request.form['driverName']
     mileageData.append(driverName)
     plateNumber = request.form['plateNumber']
@@ -283,17 +286,18 @@ def setAvailability(plateNumber,status):
 def mileageHelper(mileageData):
     #PRE: Retrieve data based on plateNumber for update
     #POST:Updates Mileage Table
-    mileage = Mileage.query.filter_by(plateNumber= mileageData[5]).first()
+    mileage = Mileage.query.filter_by(plateNumber= mileageData[6]).first()
     mileage.departure= mileageData[0]
     mileage.beginMileage=mileageData[1]
     mileage.endMileage= mileageData[2]
     mileage.totalMiles= mileageData[3]
-    mileage.driverName= mileageData[4]
-    mileage.plateNumber = mileageData[5]
-    mileage.destination = mileageData[6]
-    mileage.course = mileageData[7]
-    mileage.signature = mileageData[8]
-    mileage.comments = mileageData[9]
+    mileage.arrival = mileageData[4]
+    mileage.driverName= mileageData[5]
+    mileage.plateNumber = mileageData[6]
+    mileage.destination = mileageData[7]
+    mileage.course = mileageData[8]
+    mileage.signature = mileageData[9]
+    mileage.comments = mileageData[10]
     db.session.commit()
 #__________________END HELPERS_______________________________________________
 
@@ -499,12 +503,10 @@ def viewMileageList():
 def viewMileageDetail():
     if request.method =="POST":
         if request.form["submit"] == "UPDATE":
-            print("updating entry")
             mileageValues = getValues(request)
             mileageHelper(mileageValues)
             return redirect('/view_mileage_list')
         else:
-            print("deleting entry")
             entry = Mileage.query.filter_by(id=request.form["id"]).first()
             if entry is not None:
                 db.session.delete(entry)
@@ -514,7 +516,6 @@ def viewMileageDetail():
                 return redirect('/view_mileage_list')
     else:
         id = request.args.get("id")
-        print("getting value from db to populate")
         mileageInfo = Mileage.query.filter_by(id = id).first()
         return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
 
