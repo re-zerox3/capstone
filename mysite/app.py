@@ -366,8 +366,8 @@ def requestDetail():
 @login_required
 def deleteRequest():
     formSuccess = True
-    if request.method == 'GET':
-        id = request.args.get('id')
+    if request.method == 'POST':
+        id = request.form['id']
         entry = Requests.query.filter_by(id=id).first()
         if entry is not None:
             db.session.delete(entry)

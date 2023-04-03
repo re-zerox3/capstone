@@ -55,7 +55,8 @@
                 <input type="submit" value="BACK TO REQUESTS LIST">
             </form>
             <br>
-            <form action="/deleteRequest?id={{ queryList.id }}" method="GET">
+            <form action="/deleteRequest" method="POST">
+                <input type="number" name="id" value="{{ queryList.id }}" hidden><br>
                 <input type="submit" value="DELETE THIS RECORD">
             </form>
 		</body>
