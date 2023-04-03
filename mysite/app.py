@@ -8,8 +8,8 @@ from flask_login import LoginManager, UserMixin, \
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -493,7 +493,7 @@ def deleteInspection():
 @login_required
 def viewMileageList():
     mileageList = Mileage.query.all()
-    return render_template('view_mileage_list.html', mileageList = mileageList)
+    return render_template('view_mileage_list.html', mileageList = mileageList, userAuth=current_user.is_authenticated)
 
 # @app.route('/view_mileage_detail/id') -  this is where Nickie can view a detailed view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
@@ -517,7 +517,7 @@ def viewMileageDetail():
     else:
         id = request.args.get("id")
         mileageInfo = Mileage.query.filter_by(id = id).first()
-        return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
+        return render_template('view_mileage_detail.html', mileageInfo = mileageInfo, userAuth=current_user.is_authenticated)
 
 # @app.route('/view_available') -  this is where Nickie can view the availability table in the database
 # The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)
