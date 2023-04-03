@@ -8,8 +8,8 @@ from flask_login import LoginManager, UserMixin, \
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -246,7 +246,7 @@ def mileage2():
                                destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
 #______________MILEAGE HELPERS-----------------------------
-def getValues():
+def getValues(request):
     mileageData = []
     departure = request.form['departure']
     mileageData.append(departure)
@@ -494,24 +494,27 @@ def viewMileageList():
 # @app.route('/view_mileage_detail/id') -  this is where Nickie can view a detailed view of the active mileage records in the database
 # The html is of the specific record in the database (noted by the id)
 # The page displays all the information that would've been in the inspection form
-@app.route('/view_mileage_detail')
+@app.route('/view_mileage_detail', methods = ["POST","GET"])
 @login_required
 def viewMileageDetail():
     if request.method =="POST":
         if request.form["submit"] == "UPDATE":
+            print("updating entry")
             mileageValues = getValues(request)
             mileageHelper(mileageValues)
+            return redirect('/view_mileage_list')
         else:
-            entry = Mileage.query.filter_by(id = request.form["id"]).first()
+            print("deleting entry")
+            entry = Mileage.query.filter_by(id=request.form["id"]).first()
             if entry is not None:
                 db.session.delete(entry)
                 db.session.commit()
-                return redirect('/view_mileage_list', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+                return redirect('/view_mileage_list')
             else:
-                formSuccess = False
-                return redirect('/view_mileage_list', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+                return redirect('/view_mileage_list')
     else:
         id = request.args.get("id")
+        print("getting value from db to populate")
         mileageInfo = Mileage.query.filter_by(id = id).first()
         return render_template('view_mileage_detail.html', mileageInfo = mileageInfo)
 
