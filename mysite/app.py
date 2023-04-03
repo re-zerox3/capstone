@@ -233,8 +233,9 @@ def mileage2():
     #PRE: Retrieve data from Mileage Table
     #POST Updates Mileage Table and sets status for Available Table
     if request.method == "POST":
-        mileageData = getValues(request)
-        mileageHelper(plateNumber,mileageData)
+        mileageValues = getValues(request)
+        mileageHelper(mileageValues)
+        plateNumber = mileageValues[5]
         setAvailability(plateNumber, "CheckedIn")
         return redirect('/')
     else:
@@ -279,20 +280,20 @@ def setAvailability(plateNumber,status):
     available.availability = status
     db.session.commit()
 
-def mileageHelper(plateNumber,mileageDate):
+def mileageHelper(mileageData):
     #PRE: Retrieve data based on plateNumber for update
     #POST:Updates Mileage Table
-    mileage = Mileage.query.filter_by(plateNumber= plateNumber).first()
-    mileage.departure= mileageDate[0]
-    mileage.beginMileage=mileageDate[1]
-    mileage.endMileage= mileageDate[2]
-    mileage.totalMiles= mileageDate[3]
-    mileage.driverName= mileageDate[4]
-    mileage.plateNumber = mileageDate[5]
-    mileage.destination = mileageDate[6]
-    mileage.course = mileageDate[7]
-    mileage.signature = mileageDate[8]
-    mileage.comments = mileageDate[9]
+    mileage = Mileage.query.filter_by(plateNumber= mileageData[5]).first()
+    mileage.departure= mileageData[0]
+    mileage.beginMileage=mileageData[1]
+    mileage.endMileage= mileageData[2]
+    mileage.totalMiles= mileageData[3]
+    mileage.driverName= mileageData[4]
+    mileage.plateNumber = mileageData[5]
+    mileage.destination = mileageData[6]
+    mileage.course = mileageData[7]
+    mileage.signature = mileageData[8]
+    mileage.comments = mileageData[9]
     db.session.commit()
 #__________________END HELPERS_______________________________________________
 
@@ -498,10 +499,10 @@ def viewMileageList():
 def viewMileageDetail():
     if request.method =="POST":
         if request.form["submit"] == "UPDATE":
-            mileageData = getValues(request)
-            mileageHelper(plateNumber,mileageData)
+            mileageValues = getValues(request)
+            mileageHelper(mileageValues)
         else:
-            entry = Mileage.query.filter_by(id = reques.form["id"]).first()
+            entry = Mileage.query.filter_by(id = request.form["id"]).first()
             if entry is not None:
                 db.session.delete(entry)
                 db.session.commit()
