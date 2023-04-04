@@ -4,7 +4,7 @@
 <body>
     <h1>Transportation Services Vehicle Inspection Form</h1>
 
-    <form action="/updateInspections/" method="POST">
+    <form action="/updateInspection" method="POST">
         <input type="number" name="id" value = "{{ inspecInfo.id }}" hidden> <br>
         Vehicle #: <input type="text" name="vehicleNum" value={{inspecInfo.vehicleNum}} required><br>
 				Todays Date: <input type="date" name="todaysdate" value={{inspecInfo.todaysDate}} required><br>
@@ -57,11 +57,11 @@
         <br>
         By submitting this form I sign as the operator of this vehicle <br>
 
-        <input type="submit" value = "update">
+        <input type="submit" value = "UPDATE">
 
     </form>
     <br>
-    <form action="/view_inspection_list" method="GET">
+    <form action="/view_inspection_list" method="POST">
       <input type="submit" value="BACK TO INSPECTION LIST">
   </form>
   <form action="/deleteInspection" method="POST">

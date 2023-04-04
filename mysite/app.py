@@ -421,39 +421,21 @@ def updateRequest():
             formSuccess = False
             return render_template('view_request_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
-#@app.route('/deleteInspection/id') -  this is where Nickie can delete an existing request.
-# The html is of the specific record in the database (noted by the id)
-# The page deletes the request specified by the id
-@app.route('/deleteInspection', methods=['GET','POST'])
-@login_required
-def deleteRequest():
-    formSuccess = True
-    if request.method == 'POST':
-        id = request.form['id']
-        entry = Requests.query.filter_by(id=id).first()
-        if entry is not None:
-            db.session.delete(entry)
-            db.session.commit()
-            return redirect('/')
-        elif entry is None:
-            formSuccess = False
-            return render_template('delete.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-
 # @app.route('/view_inspection_list') - this is a page where nickie can view a list view of the active inspection records in the database
 # The HTML page will contain a few pieces of information (id, license plate, etc)
 # id is an a tag that redirects to '/view_inspection_detail/id'
-@app.route('/view_inspection_list')
+@app.route('/view_inspection_list', methods=['GET','POST'])
 @login_required
 def viewInspectionList():
     #console.log("THIS IS A TEST")
     return render_template('viewInspectionList.html', inspectionList=Inspections.query.all(), userAuth=current_user.is_authenticated)
 
-#@app.route('/updateRequest') -  this is where Nickie can update an existing request.
+#@app.route('/updateInspection') -  this is where Nickie can update an existing request.
 # The html is of the specific record in the database (noted by the id)
 # The page updates the request specified by the id
-@app.route('/updateInspectin', methods=['GET','POST'])
+@app.route('/updateInspection', methods=['GET','POST'])
 @login_required
-def updateRequest():
+def updateInspection():
     formSuccess = True
     if request.method == 'POST':
         id = request.form['id']
@@ -468,10 +450,12 @@ def updateRequest():
             inspection.beginODO = request.form['beginODO']
             inspection.comments = request.form['comments']
             inspection.operator = request.form['operator']
+            db.session.add(inspection)
+            db.session.commit()
             return redirect('/')
         elif inspection is None:
             formSuccess = False
-            return render_template('view_request_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+            return render_template('view_inspection_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 # @app.route('/view_inspection_detail/id') -  this is where Nickie can view a detailed view of the active inspection records in the database
 # The html is of the specific record in the database (noted by the id)
@@ -495,8 +479,8 @@ def viewInspectionDetail():
 @login_required
 def deleteInspection():
     formSuccess = True
-    if request.method == 'GET':
-        id = request.args.get('id')
+    if request.method == 'POST':
+        id = request.form['id']
         entry = Inspections.query.filter_by(id=id).first()
         if entry is not None:
             db.session.delete(entry)
