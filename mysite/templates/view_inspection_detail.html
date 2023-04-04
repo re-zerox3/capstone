@@ -4,7 +4,8 @@
 <body>
     <h1>Transportation Services Vehicle Inspection Form</h1>
 
-    <form action="/view_inspection_detail" method="POST">
+    <form action="/updateInspections/" method="POST">
+        <input type="number" name="id" value = "{{ inspecInfo.id }}" hidden> <br>
         Vehicle #: <input type="text" name="vehicleNum" value={{inspecInfo.vehicleNum}} required><br>
 				Todays Date: <input type="date" name="todaysdate" value={{inspecInfo.todaysDate}} required><br>
 				Vehicle Return Date: <input type="date" name="returndate" value={{inspecInfo.returnDate}} required><br>
@@ -25,38 +26,48 @@
         </p>
 				Vehicle Operator: <input type="text" name="operator" value={{inspecInfo.operator}} required><br>
         <h3>I have inspected thus assigned motor pool vehicle and find the following damage as noted in the illustration below.</h3>
-        <h3>I have inspected the equipment checkilist and can verify that all of the follwoing are present in this vehicle</h3>
+        <h3>I have inspected the equipment checkilist and can verify that all of the following are present in this vehicle</h3>
 				<input type="checkbox" id="fire extinguiser" name="fireExtinguisherCheckBox" value="">
         <label for="fire extinguiser"> Fire extinguiser</label><br>
 
-				<input type="checkbox" id="First Aid Kit" name="firstAidKitCheckBox" value="" required>
+				<input type="checkbox" id="First Aid Kit" name="firstAidKitCheckBox" value="" required checked>
         <label for="First Aid Kit"> First Aid Kit</label><br>
 
-				<input type="checkbox" id="Tire Chains" name="tireChainsCheckBox" value="" required>
+				<input type="checkbox" id="Tire Chains" name="tireChainsCheckBox" value="" required checked>
         <label for="Tire Chains"> Tire Chains</label><br>
 
-				<input type="checkbox" id="Cargo net" name="cargoNetCheckBox" value="" required>
+				<input type="checkbox" id="Cargo net" name="cargoNetCheckBox" value="" required checked>
         <label for="Cargo Net"> Cargo Net</label><br>
 
-				<input type="checkbox" id="Ice Scraper/Brush" name="scraperAndBrushCheckBox" value="" required>
+				<input type="checkbox" id="Ice Scraper/Brush" name="scraperAndBrushCheckBox" value="" required checked>
         <label for="Ice Scraper/Brush"> Ice Scraper/Brush</label><br>
 
-				<input type="checkbox" id="Spare Tire" name="spareTireCheckBox" value="" required>
+				<input type="checkbox" id="Spare Tire" name="spareTireCheckBox" value="" required checked>
         <label for="Spare Tire"> Spare Tire</label><br>
 
-				<input type="checkbox" id="Tire Jack/Spare tire tools" name="jack/toolsCheckBox" value="" required>
+				<input type="checkbox" id="Tire Jack/Spare tire tools" name="jack/toolsCheckBox" value="" required checked>
         <label for="Tire Jack/Spare tire tools"> Tire Jack/Spare tire tools</label><br>
 
-				<input type="checkbox" id="Toolbox" name="toolboxCheckBox" value="" required>
+				<input type="checkbox" id="Toolbox" name="toolboxCheckBox" value="" required checked>
         <label for="Toolbox"> Toolbox</label><br>
 
-				<input type="checkbox" id="trailer hitch" name="trailerHitchCheckBox" value="" required>
+				<input type="checkbox" id="trailer hitch" name="trailerHitchCheckBox" value="" required checked>
         <label for="trailer hitch"> Trailer Hitch and Ball</label><br>
 
         <br>
         By submitting this form I sign as the operator of this vehicle <br>
 
-        <input type="submit" value = "submit">
+        <input type="submit" value = "update">
+
     </form>
+    <br>
+    <form action="/view_inspection_list" method="GET">
+      <input type="submit" value="BACK TO INSPECTION LIST">
+  </form>
+  <form action="/deleteInspection" method="POST">
+    <input type="number" name="id" value="{{ inspecInfo.id }}" hidden><br>
+    <input type="submit" value="DELETE THIS RECORD">
+</form>
+
 </body>
 {% endblock %}
