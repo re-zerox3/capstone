@@ -1,20 +1,27 @@
 {% extends "base.html" %}
 {% block title %} Login {% endblock %}
 {% block content %}
-	{% if formSuccess == True %}
-		<h1>Please enter your login information:</h1>
-	{% elif formSuccess == False %}
-		<h1>Error! You have entered an invalid username or password.</h1>
-	{% endif %}
-	<div class="container">
-    <form action="/login" method="POST">
-      <label>Enter Username:</label>
-      <input type="text" name="username" required> <br>
-	  <br>
-      <label>Enter Password:</label>
-      <input type="text" name="password" required> <br>
-	  <br>
-	  <input type="submit">
-    </form>
-	</div>
+{% if formSuccess == True %}
+{% elif formSuccess == False %}
+<h1>Error! You have entered an invalid username or password.</h1>
+{% endif %}
+
+<img src="western.png" alt="wcu" class="centerimg">
+<div class="container1">
+	<h1>Sign in</h1>
+	<p>Please login with username</p>
+	<form action="/login" method="POST">
+		<div class="txt_field">
+			<input type="text" name="username"  placeholder="Username" required>
+		</div>
+		<div class="txt_field">
+			<input type="text" name="password" placeholder="Password" required>
+		</div>
+		<p>PRODUCTION ENVIRONMENT </p>
+		<div class="butt">
+			<input type="submit" value="Continue">
+		</div>
+
+	</form>
+</div>
 {% endblock %}
