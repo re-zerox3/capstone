@@ -463,14 +463,9 @@ def updateInspection():
 @app.route('/view_inspection_detail')
 @login_required
 def viewInspectionDetail():
-    if request.method=='POST':
-
-
-        db.session.commit()
-    else:
-        id = request.args.get("id")
-        inspecInfo = Inspections.query.filter_by(id = id).first()
-        return render_template('view_inspection_detail.html', inspecInfo=inspecInfo)
+    id = request.args.get("id")
+    inspecInfo = Inspections.query.filter_by(id = id).first()
+    return render_template('view_inspection_detail.html', inspecInfo=inspecInfo, userAuth=current_user.is_authenticated)
 
 #@app.route('/deleteInspection/id') -  this is where Nickie can delete an existing inspection.
 # The html is of the specific record in the database (noted by the id)
@@ -533,7 +528,7 @@ def viewMileageDetail():
 @login_required
 def viewAvailable():
     available = Available.query.all()
-    return render_template('view_available.html', available = available)
+    return render_template('view_available.html', available = available, userAuth=current_user.is_authenticated)
 
 @app.errorhandler(404)
 def err404(err):
