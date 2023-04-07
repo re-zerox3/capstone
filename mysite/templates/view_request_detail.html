@@ -20,8 +20,8 @@
 				<label>Trip Destination: </label><input type="text" name="destination" value="{{ queryList.destination }}" required><br>
 				<label>Estimated Number of Participants: </label><input type="number" min="0" name="participantsNum" value="{{ queryList.participantsNum }}" required><br>
 				<label>Purpose of Trip: </label><input type="text" name="tripPurpose" value="{{ queryList.tripPurpose }}" required><br>
-				<label>Vehicle Pick-Up Date/Time: </label><input type="date" name="pickupDate" value="{{ queryList.pickupDate }}" required><input type="date" name="pickupTime" value="{{ queryList.pickupTime }}" required><br>
-				<label>Return Date/Time: </label><input type="date" name="returnDate" value="{{ queryList.returnDate }}" required><input type="date" name="returnTime" value="{{ queryList.returnTime }}" required><br><br>
+				<label>Vehicle Pick-Up Date/Time: </label><input type="date" name="pickupDate" value="{{ queryList.pickupDate }}" required><input type="time" name="pickupTime" value="{{ queryList.pickupTime }}" required><br>
+				<label>Return Date/Time: </label><input type="date" name="returnDate" value="{{ queryList.returnDate }}" required><input type="time" name="returnTime" value="{{ queryList.returnTime }}" required><br><br>
 				<label>Vehicle Operators: </label><br>
 				<input type="text" name="operator1" value="{{ queryList.operator1 }}" required><br>
 				<input type="text" name="operator2" value="{{ queryList.operator2 }}"><br>
