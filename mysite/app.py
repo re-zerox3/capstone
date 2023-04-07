@@ -193,7 +193,7 @@ def inspection():
         db.session.add(inspection1)
         db.session.commit()
         print("inspection post")
-        return redirect('/')
+        return render_template("form_finished.html")
 
     else:
         code = request.args.get("code")
@@ -220,7 +220,7 @@ def mileage1():
                            driverName=driverName,signature=signature,comments=comments)
         db.session.add(mileage1)
         db.session.commit()
-        return redirect('/')
+        return render_template("form_finished.html")
     else:
         code = request.args.get("code")
         return render_template("mileage_1.html", vehicleNum=code)
@@ -238,11 +238,12 @@ def mileage2():
         mileageHelper(mileageValues)
         plateNumber = mileageValues[6]
         setAvailability(plateNumber, "Checked In")
-        return redirect('/')
+        return render_template("form_finished.html")
     else:
         code = request.args.get("code")
         print("code", code)
-        mileage = Mileage.query.filter_by(plateNumber=code).first()
+        mileage = Mileage.query.filter_by(plateNumber=code).order_by(Mileage.id.desc()).first()
+        #mileage = session.query(Mileage).order_by(Mileage.id.desc()).first()
         return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
                                destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
 
@@ -286,7 +287,7 @@ def setAvailability(plateNumber,status):
 def mileageHelper(mileageData):
     #PRE: Retrieve data based on plateNumber for update
     #POST:Updates Mileage Table
-    mileage = Mileage.query.filter_by(plateNumber= mileageData[6]).first()
+    mileage = Mileage.query.filter_by(plateNumber=mileageData[6]).order_by(Mileage.id.desc()).first()
     mileage.departure= mileageData[0]
     mileage.beginMileage=mileageData[1]
     mileage.endMileage= mileageData[2]
@@ -372,7 +373,7 @@ def deleteRequest():
         if entry is not None:
             db.session.delete(entry)
             db.session.commit()
-            return redirect('/')
+            return redirect('/view_request_list')
         elif entry is None:
             formSuccess = False
             return render_template('delete.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
@@ -416,7 +417,7 @@ def updateRequest():
             entry.deptHead = request.form['deptHead']
             db.session.add(entry)
             db.session.commit()
-            return redirect('/')
+            return redirect('/view_request_list')
         elif entry is None:
             formSuccess = False
             return render_template('view_request_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
@@ -452,7 +453,7 @@ def updateInspection():
             inspection.operator = request.form['operator']
             db.session.add(inspection)
             db.session.commit()
-            return redirect('/')
+            return redirect('/view_inspection_list')
         elif inspection is None:
             formSuccess = False
             return render_template('view_inspection_detail.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
@@ -480,7 +481,7 @@ def deleteInspection():
         if entry is not None:
             db.session.delete(entry)
             db.session.commit()
-            return redirect('/')
+            return redirect('/view_inspection_list')
         elif entry is None:
             formSuccess = False
             return render_template('delete.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
