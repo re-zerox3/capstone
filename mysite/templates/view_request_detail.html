@@ -2,7 +2,7 @@
 {% block title %} View Request {% endblock %}
 {% block content %}
 <html>
-    <h1>TRANSPORTATION SERVICES VEHICLE REQUEST</h1>
+    <h1>Transportation Services Vehicle Request Form</h1>
 		<body>
 			<form action="/updateRequest" method="POST">
 			    <input type="number" name="id" value="{{ queryList.id }}" hidden><br>
@@ -11,7 +11,7 @@
 				<label>Dept: </label><input type="text" name="dept" value="{{ queryList.dept }}" required><br>
 				<label>Course #: </label><input type="number" min="0" name="courseNum" value="{{ queryList.courseNum }}" required><br>
 				<label>Phone #: </label><input type="phone" name="phoneNum" value="{{ queryList.phoneNum }}" required><br><br>
-				<h2>PLEASE SELECT HOW MANY VEHICLES NEXT TO THE VEHICLE TYPE BELOW</h2><br>
+				<h3>Please Select How Many Vehicles Next To The Vehicle Type Below</h3><br>
 				<label>15-Passenger Van(.53/mile): </label><input type="number" min="0" name="vanNum" value="{{ queryList.vanNum }}" required><br>
 				<label>Explorer (.53/mile): </label><input type="number" min="0" name="explorerNum" value="{{ queryList.explorerNum }}" required><br>
 				<label>Suburban/Expedition (.53/mile): </label><input type="number" min="0" name="suburbanNum" value="{{ queryList.suburbanNum }}" required><br>
@@ -28,11 +28,11 @@
 				<input type="text" name="operator3" value="{{ queryList.operator3 }}"><br>
 				<input type="text" name="operator4" value="{{ queryList.operator4 }}"><br>
 				<input type="text" name="operator5" value="{{ queryList.operator5 }}"><br><br>
-				<h2>VEHICLE REQUEST CHARGE (Request will not be processed without this information): </h2><br>
+				<h3>VEHICLE REQUEST CHARGE (Request will not be processed without this information): </h3><br>
 				<label>Index Number: </label><input type="text" name="indexNum" value="{{ queryList.indexNum }}" required><br>
 				<label>Account Number: </label><input type="text" name="accountNum" value="{{ queryList.accountNum }}" required><br>
 				<label>Estimated Miles and Cost: </label><input type="text" name="estMilesCost" value="{{ queryList.estMilesCost }}" required><br><br>
-				<h2>Drivers of state fleet vehicles must have a valid driver’s license
+				<h3>Drivers of state fleet vehicles must have a valid driver’s license
 				and be over 18 years of age. In addition, they must be driving within
 				the course and scope of their employment at Western Colorado University.
 				Student Organizations will not be permitted to use University vehicles
@@ -41,11 +41,12 @@
 				normal business hours (8:00 am to 5:00 pm) Monday through Friday.
 				On the day of departure or on Friday afternoon for Saturday and Sunday departures.
 				If the trip is scheduled for an early morning departure before 8:00 am,
-				the vehicle should be picked up the day before.</h2><br><br>
-				<h2>PLEASE CHECK THE FOLLOWING: </h2><br>
+				the vehicle should be picked up the day before.</h3><br>
+				<h3>PLEASE CHECK THE FOLLOWING: </h3><br>
 				<label>Operator(s) possess a valid driver’s license and is/are on the Master list: </label><input type="checkbox" name="dlAgreement" checked required><br>
+				<br>
 				<label>Operator(s) have completed the Transportation Services driver training and is/are on the Master List: </label><input type="checkbox" name="mlAgreement" checked required><br><br>
-				<h2>DEPARTMENT APPROVAL: </h2><br>
+				<h3>DEPARTMENT APPROVAL: </h3><br>
 				<label>By checking this box I am granting department approval: </label><input type="checkbox" name="depApproval" checked required><br>
 				<label>Enter Department Head/AVP Name: </label><input type="text" name="deptHead" value="{{ queryList.deptHead }}" required><br><br>
 				<input type="submit" value="UPDATE">
@@ -54,11 +55,11 @@
 			<form action="/view_request_list" method="GET">
                 <input type="submit" value="BACK TO REQUESTS LIST">
             </form>
-            <br>
             <form action="/deleteRequest" method="POST">
                 <input type="number" name="id" value="{{ queryList.id }}" hidden><br>
                 <input type="submit" value="DELETE THIS RECORD">
             </form>
+            <br>
 		</body>
 </html>
 {% endblock %}

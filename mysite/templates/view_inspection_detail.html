@@ -6,13 +6,13 @@
 
     <form action="/updateInspection" method="POST">
         <input type="number" name="id" value = "{{ inspecInfo.id }}" hidden> <br>
-        Vehicle #: <input type="text" name="vehicleNum" value={{inspecInfo.vehicleNum}} required><br>
-				Todays Date: <input type="date" name="todaysdate" value={{inspecInfo.todaysDate}} required><br>
-				Vehicle Return Date: <input type="date" name="returndate" value={{inspecInfo.returnDate}} required><br>
-				Name of Vehicle Requester: <input type="text" name="requester" value={{inspecInfo.requester}} required><br>
-				Department: <input type="text" name="department" value={{inspecInfo.department}} required><br>
-				Destination: <input type="text" name="destination" value={{inspecInfo.destination}} required><br>
-				Beginning Odometer Reading: <input type="text" name="beginODO" value={{inspecInfo.beginODO}} required><br>
+        <label>Vehicle #: </label><input type="text" name="vehicleNum" value={{inspecInfo.vehicleNum}} required><br>
+		<label>Todays Date: </label><input type="date" name="todaysdate" value={{inspecInfo.todaysDate}} required><br>
+		<label>Vehicle Return Date: </label>Vehicle Return Date: <input type="date" name="returndate" value={{inspecInfo.returnDate}} required><br>
+		<label>Name of Vehicle Requester: </label><input type="text" name="requester" value={{inspecInfo.requester}} required><br>
+		<label>Department: </label><input type="text" name="department" value={{inspecInfo.department}} required><br>
+		<label>Destination: </label><input type="text" name="destination" value={{inspecInfo.destination}} required><br>
+		<label>Beginning Odometer Reading: </label><input type="text" name="beginODO" value={{inspecInfo.beginODO}} required><br>
         <p><label for="comments">Please add any comments of noticed dents and damages:</label></p>
 				<textarea id="comments" name="comments" rows="4" cols="30" >{{inspecInfo.comments}}</textarea>
         <br>
@@ -24,7 +24,7 @@
             appropriate to the vehicle to be driven. I will not transfer control of this vehicle to anyone  who is not on the signed request. I further understand that
             consumption and/or possesion of alcholic beverages and/or illegal substances is strictly prohibited in the State of Colorado's vehicles.
         </p>
-				Vehicle Operator: <input type="text" name="operator" value={{inspecInfo.operator}} required><br>
+		<label>Vehicle Operator: </label><input type="text" name="operator" value={{inspecInfo.operator}} required><br>
         <h3>I have inspected thus assigned motor pool vehicle and find the following damage as noted in the illustration below.</h3>
         <h3>I have inspected the equipment checkilist and can verify that all of the following are present in this vehicle</h3>
 			<input type="checkbox" id="fire extinguiser" name="fireExtinguisherCheckBox" value="" checked>
