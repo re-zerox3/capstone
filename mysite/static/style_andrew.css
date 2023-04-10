@@ -1,9 +1,9 @@
 body {
     margin:0;
     font-family: montserrat;
-    background: linear-gradient(120deg,#ffffff,#ffffff);
+    background-color: #f5f5f0;
+    padding: 50px;
     height: 100vh;
-    overflow:hidden;
 }
 
 .container1 {
