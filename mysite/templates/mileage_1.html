@@ -1,41 +1,34 @@
 {% extends "base.html" %}
-{% block title %} Home {% endblock %}
+{% block title %} mileage Record {% endblock %}
 {% block content %}
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
 <body>
-    <p>VEHICLE MILEAGE RECORD</p>
+    <h1>Vehicle Mileage Record</h1>
     <form action="mileageForm1" method="POST">
-				<label for = "id_plate"> Vehicle License Plate Number:</label>
+			<label for = "id_plate"> Vehicle License Plate Number:</label>
         <input type="text" id ="id_plate" name="plateNumber" maxlength="7" value = {{vehicleNum}} required><br>
-
-				<label for = "id_dest">Destination:</label>
+        <br>
+			<label for = "id_dest">Destination:</label>
         <input type="text" id ="id_dest" name="destination" required><br>
-
-				<label for = "id_course">Course:</label>
+        <br>
+			<label for = "id_course">Course:</label>
         <input type="text" id ="id_course" name="course" required><br>
-
-        <label for = "deparT">Departure Date:</label>
+        <br>
+            <label for = "deparT">Departure Date:</label>
         <input type="date" id ="deparT" name="departure" required><br>
-
-        <label for = "beginM">Beginning Mileage Reading:</label>
+        <br>
+            <label for = "beginM">Beginning Mileage Reading:</label>
         <input type="number" step="0.001" id ="beginM" name="beginMileage" min=0 required><br>
-
-        <label for = "id_driver">Driver's Name Printed:</label>
+        <br>
+            <label for = "id_driver">Driver's Name Printed:</label>
         <input type="text" id ="id_driver" name="driverName" required><br>
-
-        <label for = "sign">Driver's Signature:</label>
+        <br>
+            <label for = "sign">Driver's Signature:</label>
         <input type="text" id ="sign" name="signature" required><br><br>
-
-        <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
+        <br>
+            <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
         <textarea id="comm" name="comments"  rows="4" cols="30"> </textarea><br>
-        <input type="submit" value="submit">
+        <br>
+        <input id="mobileButton" type="submit" value="SUBMIT">
     </form>
 </body>
-</html>
 {% endblock %}

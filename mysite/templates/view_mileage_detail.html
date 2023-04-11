@@ -1,8 +1,7 @@
 {% extends "base.html" %}
 {% block title %} mileage Record {% endblock %}
 {% block content %}
-
-    <p>VEHICLE MILEAGE RECORD</p>
+    <h1>Vehicle Mileage Record</h1>
     <form action="/view_mileage_detail" method="POST">
         <input type="hidden"  name="id" value={{mileageInfo.id}}>
         <label for = "deparT">Departure Date:</label>
@@ -38,8 +37,9 @@
         <label for = "comm">Isssues/Concerns with Vehicle:</label><br>
 			<textarea id="comm" name="comments" rows="4" cols="20"> {{mileageInfo.comments}} </textarea><br>
 		<br>
-        <input type="submit" name = "submit" value="UPDATE"> or
+        <input type="submit" name = "submit" value="UPDATE">
+        <h3> or </h3><br>
         <input type="submit" name = "submit" value="DELETE">
     </form>
-<button><a href = "http://xelectricsheepx.pythonanywhere.com/view_mileage_list">GO BACK TO MILEAGE LIST</a></button>
+    <button><a href = "http://xelectricsheepx.pythonanywhere.com/view_mileage_list">GO BACK TO MILEAGE LIST</a></button>
 {% endblock %}
