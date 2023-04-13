@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %} mileage Record {% endblock %}
 {% block content %}
-    <h1>Vehicle Mileage Record</h1>
+    <h1 class="title">Vehicle Mileage Record</h1>
     <form action="/view_mileage_detail" method="POST">
         <input type="hidden"  name="id" value={{mileageInfo.id}}>
         <label for = "deparT">Departure Date:</label>

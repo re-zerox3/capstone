@@ -7,8 +7,18 @@ body {
 }
 #homeList {
     text-align:center;
+}
+
+h1.title{
+    text-align:center;
 
 }
+ul.listUI {
+  display: inline-block;
+  text-align: left;
+  list-style-image: url('/static/truck_icon.png');
+}
+
 .container1 {
     width: 250px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
