@@ -2,23 +2,27 @@
 {% block title %} Home {% endblock %}
 {% block content %}
 	{% if userAuth == True %}
-	<h1>VAN CHECKOUT HOME</h1>
-	<p>Use the navigation bar to:</p>
-	<ul>
-		<li>Logout.</li> <br>
-		<li>Update an existing user.</li> <br>
-        <li>View the request list.</li> <br>
-        <li>View the inspection list.</li> <br>
-        <li>View the the mileage list.</li> <br>
-        <li>View the available vans.</li> <br>
-	</ul>
+	<div id="homeList">
+		<h1>VAN CHECKOUT HOME</h1>
+		<p>Use the navigation bar to:</p>
+		<ul>
+			<li>Logout.</li> <br>
+			<li>Update an existing user.</li> <br>
+			<li>View the request list.</li> <br>
+			<li>View the inspection list.</li> <br>
+			<li>View the the mileage list.</li> <br>
+			<li>View the available vans.</li> <br>
+		</ul>
+	</div>
 	{% elif userAuth == False %}
-	<h1>VAN CHECKOUT HOME</h1>
-	<p>Use the navigation bar to:</p>
-	<ul>
-		<li>Login.</li> <br>
-        <li>Fill out the request form.</li> <br>
-	</ul>
+	<div id="homeList">
+		<h1>VAN CHECKOUT HOME</h1>
+		<p>Use the navigation bar to:</p>
+		<ul>
+			<li>Login.</li> <br>
+			<li>Fill out the request form.</li> <br>
+		</ul>
+	</div>
 	{% endif %}
 {% endblock %}
 

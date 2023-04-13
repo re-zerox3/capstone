@@ -5,13 +5,16 @@ body {
     padding: 50px;
     height: 100vh;
 }
+#homeList {
+    text-align:center;
 
+}
 .container1 {
     width: 250px;
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
     text-align: center;
     position: absolute;
-    top:50%;
+    top:70%;
     left: 50%;
     transform: translate(-50%, -50%);
     width:500px;
@@ -110,7 +113,10 @@ input[type="submit"]:hover {
 }
 
 nav {
+    text-align: center;
 	width: 100%;
+	margin: 10px;
+
 }
 
 nav ul {
