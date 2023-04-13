@@ -5,6 +5,7 @@ body {
     padding: 50px;
     height: 100vh;
 }
+
 #homeList {
     text-align:center;
 }
@@ -13,10 +14,17 @@ h1.title{
     text-align:center;
 
 }
+
 ul.listUI {
-  display: inline-block;
-  text-align: left;
-  list-style-image: url('/static/truck_icon.png');
+    font-style: bold, times new roman, serif;
+	font-size: 20px;
+    display: inline-block;
+    text-align: left;
+    list-style-image: url('/static/truck_icon.png');
+}
+
+#updateForm {
+    text-align: center;
 }
 
 .container1 {
@@ -175,10 +183,6 @@ p {
 ul {
 	font-style: bold, times new roman, serif;
 	font-size: 20px;
-}
-
-li {
-	list-style-image: url('/static/truck_icon.png');
 }
 
 .container label {

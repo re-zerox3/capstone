@@ -2,18 +2,19 @@
 {% block title %} Update User {% endblock %}
 {% block content %}
 	{% if formSuccess == True %}
-		<h1 class="title">Enter current password and the new password you want:</h1>
+		<h1 class="title">Enter current password and the new password you want:</h1><br>
 	{% elif formSuccess == False %}
-		<h1 class="title">Error! You have entered your current password incorrectly.</h1>
+		<h1 class="title">Error! You have entered your current password incorrectly.</h1><br>
 	{% endif %}
-	<div >
-    <form action="/update" method="POST">
-      <label>Enter Current Password:</label>
-      <input type="password" name="oldPassword" required> <br>
-	  <br>
-      <label>Enter New Password:</label>
-      <input type="password" name="newPassword" required> <br>
-	  <input type="submit" value="update">
-    </form>
+	<div id="updateForm">
+        <form action="/update" method="POST">
+          <label>Enter Current Password:</label>
+          <input type="password" name="oldPassword" required><br>
+    	  <br>
+          <label>Enter New Password:</label>
+          <input type="password" name="newPassword" required><br>
+          <br>
+    	  <input type="submit" value="UPDATE">
+        </form>
 	</div>
 {% endblock %}
