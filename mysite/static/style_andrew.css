@@ -23,6 +23,13 @@ ul.listUI {
     list-style-image: url('/static/truck_icon.png');
 }
 
+div.centeredButton {
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 #updateForm {
     text-align: center;
 }
@@ -89,6 +96,8 @@ input[type="submit"] {
     cursor: pointer;
     outline: none;
     text-align: center;
+    justify-content: center;
+    align-items: center;
 }
 
 input[type="submit"]:hover {
