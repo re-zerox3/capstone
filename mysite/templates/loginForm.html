@@ -3,7 +3,12 @@
 {% block content %}
 {% if formSuccess == True %}
 {% elif formSuccess == False %}
-<h1>Error! You have entered an invalid username or password.</h1>
+    <script type = "text/javascript">
+        function incorrectPass() {
+           alert("Error! You have entered an invalid username or password.");
+        }
+        incorrectPass();
+    </script>
 {% endif %}
 
 <img src="/static/western.png" alt="wcu" class="centerimg">
@@ -21,7 +26,6 @@
 		<div class="butt">
 			<input type="submit" value="Continue">
 		</div>
-
 	</form>
 </div>
 {% endblock %}
