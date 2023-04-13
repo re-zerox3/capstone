@@ -132,6 +132,7 @@ nav {
 nav ul {
 	padding: 15px;
 	list-style-type: none;
+
 }
 
 nav ul li {
@@ -139,10 +140,11 @@ nav ul li {
 	margin: 5px;
 	padding: 10px;
 	font-size: 25px;
+	 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 
 nav ul li a:link, nav ul li a:visited {
-	color: black;
+	color: white;
 }
 
 nav ul li a:hover {
@@ -150,7 +152,7 @@ nav ul li a:hover {
 }
 
 nav ul li {
-	background-color:red;
+	background-color:black;
 	border: solid black 5px;
 }
 

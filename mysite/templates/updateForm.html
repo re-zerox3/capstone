@@ -6,14 +6,14 @@
 	{% elif formSuccess == False %}
 		<h1 class="title">Error! You have entered your current password incorrectly.</h1>
 	{% endif %}
-	<div class="container">
+	<div >
     <form action="/update" method="POST">
       <label>Enter Current Password:</label>
       <input type="password" name="oldPassword" required> <br>
 	  <br>
       <label>Enter New Password:</label>
       <input type="password" name="newPassword" required> <br>
-	  <input type="submit">
+	  <input type="submit" value="update">
     </form>
 	</div>
 {% endblock %}
