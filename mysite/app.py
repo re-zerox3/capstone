@@ -5,12 +5,13 @@ from flask_login import LoginManager, UserMixin, \
     login_user, logout_user, current_user, login_required
 import hashlib
 import secrets
+import base64
 
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -107,17 +108,19 @@ def home():
 # This HTML template can be a simple login form
 # GET displays login form
 # POST redirects to /view_entries
-def hashPassword(passphrase):
-    #PRE: TAKE PASSWORD
-    #POST: RETURN HASHPASSWORD AND SALT
-    salt_length = 16
-    saltbit = secrets.token_bytes(salt_length)
-    print("salt: ", saltbit)
-    salted_password = saltbit + passphrase.encode()
-    print("salted_pass: ", salted_password)
-    hashed_password = hashlib.sha256(salted_password).hexdigest()
-    print("hashed_pass: ",hashed_password)
-    return hashed_password, saltbit
+
+
+def hashFunctionReverse(passphrase,salt_pass):
+    salt_bytes = base64.b64decode(salt_pass.encode('utf-8'))
+    hashed_password = hashlib.sha256(salt_bytes + passphrase.encode('utf-8')).hexdigest()
+    print("\nhashedpass: ",hashed_password)
+    return hashed_password
+def hashFunction(passphrase):
+    salt_pass = secrets.token_bytes(16)
+    salt_str = base64.b64encode(salt_pass).decode('utf-8')
+    hashed_password = hashlib.sha256(salt_pass + passphrase.encode('utf-8')).hexdigest()
+    print("\nNew_hashedpass: ",hashed_password)
+    return hashed_password, salt_str
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -126,13 +129,13 @@ def login():
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     username = request.form['username']
     password = request.form['password']
-    hashPassword(password)
-    hash = db.Column(db.String(40), nullable=False)
     user = User.query.filter_by(username=username).first()
-    if user is None or user.hash != password:
+    #hash password and compare it to hashDB
+    hashed_pass = hashFunctionReverse(password, user.salt)
+    if user is None or user.hash != hashed_pass:
         formSuccess = False
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    if user.password == password:
+    if user.hash == hashed_pass:
         login_user(user)
         return redirect('/')
 
@@ -171,16 +174,28 @@ def create():
 def update():
     formSuccess = True
     if request.method == 'GET':
-        return render_template('updateForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    oldPassword = request.form['oldPassword']
-    newPassword = request.form['newPassword']
-    if current_user.password != oldPassword:
-        formSuccess = False
-        return render_template('updateForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    elif current_user.password == oldPassword:
-        current_user.password = newPassword
-        db.session.commit()
-        return render_template('home.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+        return render_template('updateForm.html', userAuth=current_user.is_authenticated)
+    #oldPassword = request.form['oldPassword']
+    #user = User.query.filter_by(username="admin").first()
+    #old_hash = hashFunctionReverse(oldPassword, user.salt)
+    #print("current",current_user.hash)
+    #newPassword = request.form['newPassword']
+    #new_hash, new_salt = hashFunction(newPassword)
+
+
+
+    #if user.hash != old_hash:
+      #  formSuccess = False
+       # return render_template('updateForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
+    else:
+        print("hello world")
+        #user.hash == old_hash:
+        #print("new: ", newPassword)
+        #current_user.hash = new_hash
+        #current_user.salt = new_salt
+        #print("commit:",)
+        #db.session.commit()
+        return render_template('/', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
 
 @app.route('/view_user')
 @login_required
