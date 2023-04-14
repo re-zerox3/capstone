@@ -5,12 +5,13 @@ from flask_login import LoginManager, UserMixin, \
     login_user, logout_user, current_user, login_required
 import hashlib
 import secrets
+import base64
 
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -110,14 +111,19 @@ def home():
 def hashPassword(passphrase):
     #PRE: TAKE PASSWORD
     #POST: RETURN HASHPASSWORD AND SALT
-    salt_length = 16
-    saltbit = secrets.token_bytes(salt_length)
-    print("salt: ", saltbit)
-    salted_password = saltbit + passphrase.encode()
-    print("salted_pass: ", salted_password)
-    hashed_password = hashlib.sha256(salted_password).hexdigest()
-    print("hashed_pass: ",hashed_password)
-    return hashed_password, saltbit
+    salt_bytes = secrets.token_bytes(16)
+    print("saltbyte: ", salt_bytes)
+    salt_str = base64.b64encode(salt_bytes).decode('utf-8')
+    print("salt_string: ",salt_str)
+    hashed_password = hashlib.sha256(salt_bytes + passphrase.encode('utf-8')).hexdigest()
+    print("hashed_pass: ", hashed_password)
+    return hashed_password, salt_str
+
+def reverseHash(passphrase,salt_pass):
+    salt_bytes = base64.b64decode(salt_pass.encode('utf-8'))
+    hashed_password = hashlib.sha256(salt_bytes + passphrase.encode('utf-8')).hexdigest()
+    print("\nhashedpass: ",hashed_password)
+    return hashed_password
 
 @app.route('/login', methods=['GET','POST'])
 def login():
@@ -126,13 +132,12 @@ def login():
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     username = request.form['username']
     password = request.form['password']
-    hashPassword(password)
-    hash = db.Column(db.String(40), nullable=False)
     user = User.query.filter_by(username=username).first()
-    if user is None or user.hash != password:
+    hashed_pass = reverseHash(password, user.salt)
+    if user is None or user.hash != hashed_pass:
         formSuccess = False
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
-    if user.password == password:
+    if user.hash == hashed_pass:
         login_user(user)
         return redirect('/')
 
