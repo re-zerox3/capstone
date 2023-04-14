@@ -3,7 +3,8 @@ from flask import request
 from flask_sqlalchemy import *
 from flask_login import LoginManager, UserMixin, \
     login_user, logout_user, current_user, login_required
-
+import hashlib
+import secrets
 
 app = Flask(__name__, static_url_path='/static')
 
@@ -21,7 +22,8 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(40))
     age = db.Column(db.Integer)
     username = db.Column(db.String(20), unique=True, nullable=False)
-    password = db.Column(db.String(40), nullable=False)
+    hash = db.Column(db.String(80), nullable=False)
+    salt = db.Column(db.String(40), nullable=False)
 
 class Inspections(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
@@ -105,6 +107,18 @@ def home():
 # This HTML template can be a simple login form
 # GET displays login form
 # POST redirects to /view_entries
+def hashPassword(passphrase):
+    #PRE: TAKE PASSWORD
+    #POST: RETURN HASHPASSWORD AND SALT
+    salt_length = 16
+    saltbit = secrets.token_bytes(salt_length)
+    print("salt: ", saltbit)
+    salted_password = saltbit + passphrase.encode()
+    print("salted_pass: ", salted_password)
+    hashed_password = hashlib.sha256(salted_password).hexdigest()
+    print("hashed_pass: ",hashed_password)
+    return hashed_password, saltbit
+
 @app.route('/login', methods=['GET','POST'])
 def login():
     formSuccess = True
@@ -112,8 +126,10 @@ def login():
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     username = request.form['username']
     password = request.form['password']
+    hashPassword(password)
+    hash = db.Column(db.String(40), nullable=False)
     user = User.query.filter_by(username=username).first()
-    if user is None or user.password != password:
+    if user is None or user.hash != password:
         formSuccess = False
         return render_template('loginForm.html', userAuth=current_user.is_authenticated, formSuccess=formSuccess)
     if user.password == password:
