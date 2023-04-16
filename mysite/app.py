@@ -10,8 +10,8 @@ import base64
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -115,15 +115,14 @@ def hashFunctionReverse(passphrase,salt_pass):
     #POST: Return hashed password.
     salt_bytes = base64.b64decode(salt_pass.encode('utf-8'))
     hashed_password = hashlib.sha256(salt_bytes + passphrase.encode('utf-8')).hexdigest()
-    print("\nhashedpass: ",hashed_password)
     return hashed_password
+
 def hashFunction(passphrase):
     #PRE: Takes in a password.
     #POST: Returns a hashed password with its respective salt value for storage
     salt_pass = secrets.token_bytes(16)
     salt_str = base64.b64encode(salt_pass).decode('utf-8')
     hashed_password = hashlib.sha256(salt_pass + passphrase.encode('utf-8')).hexdigest()
-    print("\nNew_hashedpass: ",hashed_password)
     return hashed_password, salt_str
 
 @app.route('/login', methods=['GET','POST'])
