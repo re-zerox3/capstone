@@ -10,8 +10,8 @@ import base64
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
