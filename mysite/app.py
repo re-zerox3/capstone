@@ -10,8 +10,8 @@ import base64
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
 
 db = SQLAlchemy(app)
@@ -150,7 +150,7 @@ def login():
 @login_required
 def logout():
     logout_user()
-    return render_template('home.html', userAuth=current_user.is_authenticated)
+    return redirect('/login')
 
 ### Debugging Routes ###
 @app.route('/create_user', methods=['GET', 'POST'])
