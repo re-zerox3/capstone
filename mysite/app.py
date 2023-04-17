@@ -555,11 +555,20 @@ def viewMileageDetail():
 # The html is a simple graphic that shows all vans in db as well as their status (available/checkedout)
 # Most basic site just a quick way for Nickie to view the fleet
 
-@app.route('/view_available')
+@app.route('/view_available', methods = ["POST","GET"])
 @login_required
 def viewAvailable():
-    available = Available.query.order_by(Available.availability).all()
-    return render_template('view_available.html', available = available, userAuth=current_user.is_authenticated)
+    if request.method =="POST":
+        license_Num = request.form['licenseNum']
+        vehicle_Name= request.form['vehicleName']
+        add_New_Van = Available(License_Plate= license_Num,Vehicle_Name =vehicle_Name, availability = "Checked In")
+        db.session.add(add_New_Van)
+        db.session.commit()
+        available = Available.query.order_by(Available.availability).all()
+        return render_template('view_available.html',available = available, userAuth=current_user.is_authenticated)
+    else:
+        available = Available.query.order_by(Available.availability).all()
+        return render_template('view_available.html', available = available, userAuth=current_user.is_authenticated)
 
 @app.errorhandler(404)
 def err404(err):

@@ -2,7 +2,7 @@
 {% extends "base.html" %}
 {% block title %}ViewAll{% endblock %}
 {% block content %}
-<h1 class="title">View Available Vehicles<h1>
+<h1 class="title">View Available Vehicles</h1>
 	<table id="views">
 		<th>License Plate</th>
 		<th>Vehicle Name</th>
@@ -14,5 +14,18 @@
 			<td>{{ available.availability }}</td>
 		</tr>
 		{% endfor %}
-	</table>
+	</table><br>
+<h1 class="title">Add a new Van</h1>
+
+	<div id="updateForm">
+        <form action="/view_available" method="POST">
+          <label>Enter New Vehicle Name:</label>
+          <input type="text" name="vehicleName" required><br>
+    	  <br>
+          <label>Enter License Plate:</label>
+			<input type="text" name="licenseNum" required><br>
+          <br>
+    	  <input type="submit" value="ADD">
+        </form>
+	</div>
 {% endblock %}
