@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% block title %} mileage Record {% endblock %}
+{% block content %}
+<html>
+<head>
+    <title>Image Viewer</title>
+</head>
+<body>
+    {% for image in images %}
+    <div>
+        <img src="{{ image.path }}" width="{{ image.width }}" height="{{ image.height }}">
+        <p>{{ image.filename }}</p>
+    </div>
+    {% endfor %}
+</body>
+</html>
+{% endblock %}

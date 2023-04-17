@@ -12,6 +12,7 @@
 			<td>{{ available.License_Plate }}</td>
 			<td>{{ available.Vehicle_Name }}</td>
 			<td>{{ available.availability }}</td>
+			<td><a href="/viewQR?id={{ available.License_Plate }}">View QR code</a></td>
 		</tr>
 		{% endfor %}
 	</table><br>
