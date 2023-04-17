@@ -10,20 +10,34 @@
         incorrectPass();
     </script>
 {% endif %}
-<div class="container1">
-	<h1>Sign in</h1>
-	<p>Please login with username</p>
-	<form action="/login" method="POST">
-		<div class="txt_field">
-			<input type="text" name="username"  placeholder="Username" required>
-		</div>
-		<div class="txt_field">
-			<input type="password" name="password" placeholder="Password" required >
-		</div>
-		<p>PRODUCTION ENVIRONMENT </p>
-		<div class="butt">
-			<input type="submit" value="Continue">
-		</div>
-	</form>
-</div>
+    <script>
+    function showPassword() {
+          var x = document.getElementById("passwordBox");
+          if (x.type === "password") {
+            x.type = "text";
+          } else {
+            x.type = "password";
+          }
+    }
+    </script>
+
+    <div class="container1">
+        <h1>Sign in</h1>
+        <p>Please login with username</p>
+        <form action="/login" method="POST">
+        	<div class="txt_field">
+        		<input type="text" name="username"  placeholder="Username" required>
+        	</div>
+        	<br>
+        	<div class="txt_field">
+        		<input type="password" name="password" placeholder="Password" id=passwordBox required>
+        	</div>
+        	<br>
+        	<input type="checkbox" onclick="showPassword()"><label>Show Password</label>
+        	<p>PRODUCTION ENVIRONMENT </p>
+        	<div class="butt">
+        		<input type="submit" value="Continue">
+        	</div>
+        </form>
+    </div>
 {% endblock %}

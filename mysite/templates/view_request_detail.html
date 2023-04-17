@@ -53,19 +53,17 @@
 				    <input type="submit" value="UPDATE">
 				</div>
 			</form>
-			<br>
 			<form action="/view_request_list" method="GET">
 			    <div class="centeredButton">
                     <input type="submit" value="BACK TO REQUESTS LIST">
                 </div>
             </form>
             <form action="/deleteRequest" method="POST">
-                <input type="number" name="id" value="{{ queryList.id }}" hidden><br>
+                <input type="number" name="id" value="{{ queryList.id }}" hidden>
                 <div class="centeredButton">
                     <input type="submit" value="DELETE THIS RECORD">
                 </div>
             </form>
-            <br>
 		</body>
 </html>
 {% endblock %}

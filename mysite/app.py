@@ -183,7 +183,6 @@ def update():
         user = User.query.filter_by(username= current_user.username).first()
         old_hash = hashFunctionReverse(oldPassword, user.salt)
         new_hash, new_salt = hashFunction(newPassword)
-
         if current_user.hash == old_hash:
             current_user.salt = new_salt
             current_user.hash = new_hash
@@ -537,7 +536,7 @@ def viewMileageDetail():
             mileageValues = getValues(request)
             mileageHelper(mileageValues)
             return redirect('/view_mileage_list')
-        else:
+        elif request.form["submit"] == "DELETE":
             entry = Mileage.query.filter_by(id=request.form["id"]).first()
             if entry is not None:
                 db.session.delete(entry)
@@ -545,6 +544,8 @@ def viewMileageDetail():
                 return redirect('/view_mileage_list')
             else:
                 return redirect('/view_mileage_list')
+        else:
+            return redirect('/view_mileage_list')
     else:
         id = request.args.get("id")
         mileageInfo = Mileage.query.filter_by(id = id).first()

@@ -57,7 +57,7 @@ div.centeredButton {
     padding: 0 0 10px 0;
 }
 
-form .txt_field {
+.txt_field form {
     display: flex;
     justify-content: center;
     position: relative;
@@ -98,6 +98,7 @@ input[type="submit"] {
     text-align: center;
     justify-content: center;
     align-items: center;
+    margin: 10px;
 }
 
 input[type="submit"]:hover {
@@ -161,6 +162,7 @@ nav ul li {
 }
 
 nav ul li a:link, nav ul li a:visited {
+    text-decoration: none;
 	color: white;
 }
 
