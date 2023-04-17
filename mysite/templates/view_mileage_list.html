@@ -10,7 +10,7 @@
 	<tr>
     	<td>{{ mileage.id }}</td>
     	<td>{{ mileage.plateNumber}}</td>
-    	<td><a href="http://xelectricsheepx.pythonanywhere.com/view_mileage_detail?id={{ mileage.id }}">View detail</a></td>
+    	<td><a href="/view_mileage_detail?id={{ mileage.id }}">View detail</a></td>
 	</tr>
 	{% endfor %}
 </table>
