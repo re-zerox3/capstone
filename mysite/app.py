@@ -592,16 +592,16 @@ def viewQR():
 
         # #delete all existing qr codes in directory
         # # get a list of all files in the directory
-        file_list = os.listdir("QR directory")
+        file_list = os.listdir("/home/xElectricSheepx/mysite/capstone/mysite/static/QRcodes")
 
         # # iterate over each file in the list
         for file in file_list:
-        #     # construct the full file path
-            file_path = os.path.join("QR directory", file)
+            # construct the full file path
+            file_path = os.path.join("/home/xElectricSheepx/mysite/capstone/mysite/static/QRcodes", file)
 
         #check if the file is a regular file (not a directory)
             if os.path.isfile(file_path):
-        #         # delete the file
+                # delete the file
                 os.remove(file_path)
 
         #change directory
