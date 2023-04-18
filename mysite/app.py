@@ -583,29 +583,29 @@ def get_image_files(directory):
     return image_files
 
 
-@app.route('/viewQR', methods =['POST','GET'])
+@app.route('/viewQR', methods=['POST','GET'])
 @login_required
 def viewQR():
     if request.method=="POST":
         #change to directory
-        #os.chdir("..")
-        
+        os.chdir("..")
+
         # #delete all existing qr codes in directory
         # # get a list of all files in the directory
-        # file_list = os.listdir("QR directory")
-        
+        file_list = os.listdir("QR directory")
+
         # # iterate over each file in the list
-        # for file in file_list:
+        for file in file_list:
         #     # construct the full file path
-        #     file_path = os.path.join("QR directory", file)
-            
-        #     # check if the file is a regular file (not a directory)
-        #     if os.path.isfile(file_path):
+            file_path = os.path.join("QR directory", file)
+
+        #check if the file is a regular file (not a directory)
+            if os.path.isfile(file_path):
         #         # delete the file
-        #         os.remove(file_path)
-        
+                os.remove(file_path)
+
         #change directory
-        os.chdir("static/QRcodes")
+        os.chdir("/home/xElectricSheepx/mysite/capstone/mysite/static/QRcodes")
 
         # get the domain from user
         domain = request.form['domain']
@@ -622,7 +622,7 @@ def viewQR():
         # Save QR code image
         img.save("inspection: " + plateNum+ ".png")
 
-        # generate QR 2        
+        # generate QR 2
         url = domain + "/mileageForm1?code=" + plateNum
         # Create QR code instance
         qr = qrcode.QRCode(version=1, box_size=10, border=5)
@@ -643,30 +643,26 @@ def viewQR():
         # Generate QR code image
         img = qr.make_image(fill_color="black", back_color="white")
         # Save QR code image
-        img.save("Mileage2: " + plateNum + ".png") 
+        img.save("Mileage2: " + plateNum + ".png")
 
         os.chdir("..")
         os.chdir("..")
 
         # Get a list of image files in the specified directory
-        image_files = get_image_files('static/QRcodes')
+        image_files = get_image_files('/home/xElectricSheepx/mysite/capstone/mysite/static/QRcodes')
 
         # Create a list of dictionaries containing information about each image
         images = []
         for image_file in image_files:
-            image_path = os.path.join('static/QRcodes', image_file)
-            print(image_path)
+            image_path = os.path.join('static/QRcodes/', image_file)
+#           print(image_path)
             image = Image.open(image_path)
             images.append({'filename': image_file, 'path': image_path, 'width': image.width, 'height': image.height})
-        
-        return render_template('viewQR.html', userAuth=current_user.is_authenticated, images=images)  
+
+        return render_template('viewQR.html', userAuth=current_user.is_authenticated, images=images)
     else:
         plateNum = request.args.get('id')
         return render_template('viewQRform.html', userAuth=current_user.is_authenticated, plateNum=plateNum)
-
-
-
-
 
 @app.errorhandler(404)
 def err404(err):
