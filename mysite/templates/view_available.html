@@ -26,8 +26,9 @@
 	  <br>
       <label>Enter License Plate:</label>
 		<input type="text" name="licenseNum" required><br>
+		<input type="text" name="action" value="add" hidden><br>
       <br>
-	  <input type="submit" name="submitAdd" value="ADD">
+	  <input type="submit" value="ADD">
     </form>
 </div>
 <h1 class="title">Remove a Van</h1>
@@ -35,8 +36,9 @@
     <form action="/view_available" method="POST">
       <label>Enter License Plate:</label>
 		<input type="text" name="licenseNum" required><br>
+		<input type="text" name="action" value="delete" hidden><br>
       <br>
-	  <input type="submit" name="submitDelete" value="DELETE">
+	  <input type="submit" value="DELETE">
     </form>
 </div>
 {% endblock %}

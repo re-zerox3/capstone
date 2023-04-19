@@ -562,7 +562,7 @@ def viewMileageDetail():
 @login_required
 def viewAvailable():
     if request.method == "POST":
-        if request.form["submitAdd"] == "ADD":
+        if request.form["action"] == "add":
             license_Num = request.form['licenseNum']
             vehicle_Name = request.form['vehicleName']
             add_New_Van = Available(License_Plate=license_Num, Vehicle_Name=vehicle_Name, availability="Checked In")
@@ -570,7 +570,7 @@ def viewAvailable():
             db.session.commit()
             available = Available.query.order_by(Available.availability).all()
             return render_template('view_available.html', available = available, userAuth=current_user.is_authenticated)
-        elif request.form["submitDelete"] == "DELETE":
+        elif request.form["action"] == "delete":
             entry = Available.query.filter_by(License_Plate=request.form['licenseNum']).first()
             if entry is not None:
                 db.session.delete(entry)
