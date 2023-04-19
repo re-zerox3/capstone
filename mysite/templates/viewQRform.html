@@ -3,11 +3,13 @@
 {% block content %}
 <body>
     <h1 class="title">Update Domain for QR codes</h1>
-    <form action="viewQR" method="POST">
-        <input type="text" id ="domain" name="domain" required><br>
-        <input type="hidden" id = "id" name = "id" value=" {{ plateNum }}">
-        <br>
-        <input type="submit" value="SUBMIT">
-    </form>
+    <div id="updateForm">
+        <form action="viewQR" method="POST">
+            <input type="text" id ="domain" name="domain" placeholder="Enter domain i.e., western.edu" size="40" required><br>
+            <input type="hidden" id = "id" name = "id" value="{{ plateNum }}">
+            <br>
+            <input type="submit" value="SUBMIT">
+        </form>
+    </div>
 </body>
 {% endblock %}
