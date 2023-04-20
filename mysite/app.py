@@ -15,7 +15,7 @@ app = Flask(__name__, static_url_path='/static')
 # Please swap this back to the live one if you're working locally please.
 #app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
-app.config['SECRET_KEY'] = 'thisIsASecretyKeyThatWontWork'
+app.config['SECRET_KEY'] = 'REZEROXELECTLZZ'
 
 db = SQLAlchemy(app)
 
@@ -106,13 +106,6 @@ def load_user(uid):
 def home():
     return render_template('home.html', userAuth=current_user.is_authenticated)
 
-
-# @app.route('/login') - this is the home route, also the login route for nickie to have access to all the read routes
-# This HTML template can be a simple login form
-# GET displays login form
-# POST redirects to /view_entries
-
-
 def hashFunctionReverse(passphrase,salt_pass):
     #PRE: Takes password and Stored salt value
     #POST: Return hashed password.
@@ -128,6 +121,11 @@ def hashFunction(passphrase):
     hashed_password = hashlib.sha256(salt_pass + passphrase.encode('utf-8')).hexdigest()
     return hashed_password, salt_str
 
+
+# @app.route('/login') - this is the home route, also the login route for nickie to have access to all the read routes
+# This HTML template can be a simple login form
+# GET displays login form
+# POST redirects to /view_entries
 @app.route('/login', methods=['GET','POST'])
 def login():
     formSuccess = True
@@ -196,11 +194,6 @@ def update():
             return render_template('updateForm.html', formSuccess = formSuccess, userAuth = current_user.is_authenticated)
     else:
         return render_template('updateForm.html', formSuccess = formSuccess, userAuth = current_user.is_authenticated)
-
-@app.route('/view_user')
-@login_required
-def viewUser():
-    return render_template('viewUserInfo.html', userQuery=User.query.filter_by(id=current_user.id).first(), userAuth=current_user.is_authenticated)
 
 ## @app.route('/inspection_form/?code = ) -  this is the first route visited by someone checking out a vehicle must be accessed by a parameterized get request from the QR code
 # GET request displays the inspection form with license plate already filled in
@@ -682,7 +675,6 @@ def err404(err):
 @app.errorhandler(401)
 def err401(err):
     return render_template('401.html', err=err)
-
 
 if __name__ == '__main__':
     app.run()
