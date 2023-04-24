@@ -13,8 +13,8 @@ from PIL import Image
 app = Flask(__name__, static_url_path='/static')
 
 # Please swap this back to the live one if you're working locally please.
-#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:////home/xElectricSheepx/mysite/capstone/mysite/instance/databaseForm.db'
+#app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///databaseForm.db'
 app.config['SECRET_KEY'] = 'REZEROXELECTLZZ'
 
 db = SQLAlchemy(app)
@@ -267,9 +267,12 @@ def mileage2():
         code = request.args.get("code")
         print("code", code)
         mileage = Mileage.query.filter_by(plateNumber=code).order_by(Mileage.id.desc()).first()
-        #mileage = session.query(Mileage).order_by(Mileage.id.desc()).first()
-        return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
-                               destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
+        if mileage is not None:
+            #mileage = session.query(Mileage).order_by(Mileage.id.desc()).first()
+            return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
+                                   destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
+        else:
+            return redirect('/mileageForm1')
 
 #______________MILEAGE HELPERS-----------------------------
 def getValues(request):
