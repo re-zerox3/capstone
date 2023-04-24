@@ -272,7 +272,7 @@ def mileage2():
             return render_template('mileage2.html',departure=mileage.departure ,plateNumber=mileage.plateNumber,beginMileage=mileage.beginMileage,
                                    destination=mileage.destination,course=mileage.course,driverName=mileage.driverName,signature=mileage.signature,comments=mileage.comments)
         else:
-            return redirect('/mileageForm1')
+            return redirect('/mileageForm1?code='+ code)
 
 #______________MILEAGE HELPERS-----------------------------
 def getValues(request):
